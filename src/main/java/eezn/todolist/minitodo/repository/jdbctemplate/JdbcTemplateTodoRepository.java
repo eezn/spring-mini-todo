@@ -41,8 +41,8 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     }
 
     @Override
-    public int update(Todo todo) {
-        return jdbcTemplate.update(
+    public void update(Todo todo) {
+        jdbcTemplate.update(
                 "update todo_list set " +
                         "user_id = ?, " +
                         "created_time = ?, " +
@@ -66,8 +66,8 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     }
 
     @Override
-    public int updateDeleteFlag(Todo todo) {
-        return jdbcTemplate.update(
+    public void updateDeleteFlag(Todo todo) {
+        jdbcTemplate.update(
                 "update todo_list set todo_is_deleted = true where todo_id = ?", todo.getId());
     }
 

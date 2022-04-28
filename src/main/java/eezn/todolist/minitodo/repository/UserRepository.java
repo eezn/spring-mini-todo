@@ -9,7 +9,7 @@ public interface UserRepository {
 
     User insert(User user);
 
-    int update(User user);
+    void update(User user);
 
 //    int updateName(Integer id, String name);
 //
@@ -17,7 +17,7 @@ public interface UserRepository {
 //
 //    int updateEmail(Integer id, String email);
 
-    int updateDeleteFlag(User user);
+    void updateDeleteFlag(User user);
 
     Optional<User> findById(Integer id);
 

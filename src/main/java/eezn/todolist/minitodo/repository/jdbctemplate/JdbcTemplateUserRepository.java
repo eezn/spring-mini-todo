@@ -36,8 +36,8 @@ public class JdbcTemplateUserRepository implements UserRepository {
     }
 
     @Override
-    public int update(User user) {
-        return jdbcTemplate.update(
+    public void update(User user) {
+        jdbcTemplate.update(
                 "update users set user_name = ?, user_password = ?, user_email = ? where user_id = ?",
                 user.getUsername(), user.getPassword(), user.getEmail(), user.getId());
     }
@@ -61,8 +61,8 @@ public class JdbcTemplateUserRepository implements UserRepository {
 //    }
 
     @Override
-    public int updateDeleteFlag(User user) {
-        return jdbcTemplate.update(
+    public void updateDeleteFlag(User user) {
+        jdbcTemplate.update(
                 "update users set user_is_deleted = true where user_id = ?", user.getId());
     }
 

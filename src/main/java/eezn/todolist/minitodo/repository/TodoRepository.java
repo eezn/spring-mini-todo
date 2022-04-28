@@ -9,9 +9,9 @@ public interface TodoRepository {
 
     Todo insert(Todo todo);
 
-    int update(Todo todo);
+    void update(Todo todo);
 
-    int updateDeleteFlag(Todo todo);
+    void updateDeleteFlag(Todo todo);
 
     Optional<Todo> findById(Integer id);
 
