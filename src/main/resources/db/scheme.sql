@@ -16,9 +16,9 @@ CREATE TABLE `todo_list` (
 	`modified_time`     DATETIME        NULL,
 	`todo_content`      TEXT            NULL,
 	`todo_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE,
-	`category_id`       INT             NOT NULL,
-	`priority_id`       INT             NOT NULL,
-	`status_id`         INT             NOT NULL
+	`category_id`       INT             NOT NULL    DEFAULT 1,
+	`priority_id`       INT             NOT NULL    DEFAULT 4,
+	`status_id`         INT             NOT NULL    DEFAULT 1
 );
 
 CREATE TABLE `todo_category` (
@@ -94,7 +94,7 @@ INSERT INTO `todo_priority` (priority_level) VALUES ('B');
 INSERT INTO `todo_priority` (priority_level) VALUES ('C');
 INSERT INTO `todo_priority` (priority_level) VALUES ('D');
 
-INSERT INTO `todo_status` (status_name) VALUES ('done');
 INSERT INTO `todo_status` (status_name) VALUES ('todo');
+INSERT INTO `todo_status` (status_name) VALUES ('done');
 
 
