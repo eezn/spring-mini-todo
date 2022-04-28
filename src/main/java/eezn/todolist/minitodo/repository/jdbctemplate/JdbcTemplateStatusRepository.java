@@ -1,4 +1,4 @@
-package eezn.todolist.minitodo.repository.jdbc_template;
+package eezn.todolist.minitodo.repository.jdbctemplate;
 
 import eezn.todolist.minitodo.domain.Status;
 import eezn.todolist.minitodo.repository.StatusRepository;

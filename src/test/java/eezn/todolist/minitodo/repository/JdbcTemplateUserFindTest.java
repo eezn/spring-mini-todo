@@ -1,7 +1,7 @@
 package eezn.todolist.minitodo.repository;
 
 import eezn.todolist.minitodo.domain.User;
-import eezn.todolist.minitodo.repository.jdbc_template.JdbcTemplateUserRepository;
+import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateUserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package eezn.todolist.minitodo.repository.jdbc_template;
+package eezn.todolist.minitodo.repository.jdbctemplate;
 
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.repository.TodoRepository;
@@ -43,8 +43,8 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     @Override
     public int update(Todo todo) {
         return jdbcTemplate.update(
-                "update todo_list " +
-                        "set user_id = ?, " +
+                "update todo_list set " +
+                        "user_id = ?, " +
                         "created_time = ?, " +
                         "modified_time = ?, " +
                         "todo_content = ?, " +

@@ -1,7 +1,7 @@
 package eezn.todolist.minitodo.repository;
 
 import eezn.todolist.minitodo.domain.Category;
-import eezn.todolist.minitodo.repository.jdbc_template.JdbcTemplateCategoryRepository;
+import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateCategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

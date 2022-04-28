@@ -1,4 +1,4 @@
-package eezn.todolist.minitodo.repository.jdbc_template;
+package eezn.todolist.minitodo.repository.jdbctemplate;
 
 import eezn.todolist.minitodo.domain.User;
 import eezn.todolist.minitodo.repository.UserRepository;
@@ -63,7 +63,7 @@ public class JdbcTemplateUserRepository implements UserRepository {
     @Override
     public int updateDeleteFlag(User user) {
         return jdbcTemplate.update(
-                "update users set user_is_deleted=true where user_id = ?", user.getId());
+                "update users set user_is_deleted = true where user_id = ?", user.getId());
     }
 
     @Override
