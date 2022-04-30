@@ -51,21 +51,21 @@ public class JdbcTemplateUserRepository implements UserRepository {
     @Override
     public Optional<User> findById(Integer id) {
         List<User> result = jdbcTemplate.query(
-                "select * from users where user_id = ? and user_is_deleted = false", userRowMapper(), id);
+                "select * from users where user_id = ?", userRowMapper(), id);
         return result.stream().findAny();
     }
 
     @Override
     public Optional<User> findByName(String name) {
         List<User> result = jdbcTemplate.query(
-                "select * from users where user_name = ? and user_is_deleted = false", userRowMapper(), name);
+                "select * from users where user_name = ?", userRowMapper(), name);
         return result.stream().findAny();
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         List<User> result = jdbcTemplate.query(
-                "select * from users where user_email = ? and user_is_deleted = false", userRowMapper(), email);
+                "select * from users where user_email = ?", userRowMapper(), email);
         return result.stream().findAny();
     }
 
@@ -75,17 +75,17 @@ public class JdbcTemplateUserRepository implements UserRepository {
                     "select * from users", userRowMapper());
     }
 
-    @Override
-    public List<User> findActive() {
-        return jdbcTemplate.query(
-                "select * from users where user_is_deleted = false", userRowMapper());
-    }
-
-    @Override
-    public List<User> findDeactivated() {
-        return jdbcTemplate.query(
-                "select * from users where user_is_deleted = true", userRowMapper());
-    }
+//    @Override
+//    public List<User> findActive() {
+//        return jdbcTemplate.query(
+//                "select * from users where and user_is_deleted is not true", userRowMapper());
+//    }
+//
+//    @Override
+//    public List<User> findDeactivated() {
+//        return jdbcTemplate.query(
+//                "select * from users where and user_is_deleted is not false", userRowMapper());
+//    }
 
     @Override
     public void clear() {
