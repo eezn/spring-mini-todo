@@ -1,5 +1,6 @@
 package eezn.todolist.minitodo.service;
 
+import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.domain.User;
 import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateTodoRepository;
 import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateUserRepository;
@@ -42,9 +43,10 @@ public class UserService {
                 });
     }
 
-    public void deactivateUser(User user) {
+    public void deactivate(User user) {
         if (userRepository.findById(user.getId()).isPresent()) {
-            // todo: todoRepository UserId에 묶인 todolist 비활성화
+            List<Todo> todoList = todoRepository.findByUserId(user.getId());
+            todoList.forEach(todoRepository::updateDeleteFlag);
             userRepository.updateDeleteFlag(user);
         }
     }
