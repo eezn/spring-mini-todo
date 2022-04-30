@@ -11,12 +11,6 @@ public interface UserRepository {
 
     void update(User user);
 
-//    int updateName(Integer id, String name);
-//
-//    int updatePassword(Integer id, String password);
-//
-//    int updateEmail(Integer id, String email);
-
     void updateDeleteFlag(User user);
 
     Optional<User> findById(Integer id);

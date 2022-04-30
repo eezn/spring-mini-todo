@@ -42,24 +42,6 @@ public class JdbcTemplateUserRepository implements UserRepository {
                 user.getUsername(), user.getPassword(), user.getEmail(), user.getId());
     }
 
-//    @Override
-//    public int updateName(Integer id, String name) {
-//        return jdbcTemplate.update(
-//                "update users set user_name = ? where user_id = ?", name, id);
-//    }
-//
-//    @Override
-//    public int updatePassword(Integer id, String password) {
-//        return jdbcTemplate.update(
-//                "update users set user_password = ? where user_id = ?", password, id);
-//    }
-//
-//    @Override
-//    public int updateEmail(Integer id, String email) {
-//        return jdbcTemplate.update(
-//                "update users set user_email = ? where user_id = ?", email, id);
-//    }
-
     @Override
     public void updateDeleteFlag(User user) {
         jdbcTemplate.update(
@@ -69,21 +51,21 @@ public class JdbcTemplateUserRepository implements UserRepository {
     @Override
     public Optional<User> findById(Integer id) {
         List<User> result = jdbcTemplate.query(
-                "select * from users where user_id = ?", userRowMapper(), id);
+                "select * from users where user_id = ? and user_is_deleted = false", userRowMapper(), id);
         return result.stream().findAny();
     }
 
     @Override
     public Optional<User> findByName(String name) {
         List<User> result = jdbcTemplate.query(
-                "select * from users where user_name = ?", userRowMapper(), name);
+                "select * from users where user_name = ? and user_is_deleted = false", userRowMapper(), name);
         return result.stream().findAny();
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         List<User> result = jdbcTemplate.query(
-                "select * from users where user_email = ?", userRowMapper(), email);
+                "select * from users where user_email = ? and user_is_deleted = false", userRowMapper(), email);
         return result.stream().findAny();
     }
 
@@ -96,13 +78,13 @@ public class JdbcTemplateUserRepository implements UserRepository {
     @Override
     public List<User> findActive() {
         return jdbcTemplate.query(
-                "select * from users where user_is_deleted != true", userRowMapper());
+                "select * from users where user_is_deleted = false", userRowMapper());
     }
 
     @Override
     public List<User> findDeactivated() {
         return jdbcTemplate.query(
-                "select * from users where user_is_deleted != false", userRowMapper());
+                "select * from users where user_is_deleted = true", userRowMapper());
     }
 
     @Override

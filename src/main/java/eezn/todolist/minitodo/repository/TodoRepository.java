@@ -1,5 +1,6 @@
 package eezn.todolist.minitodo.repository;
 
+import eezn.todolist.minitodo.domain.StatusEnum;
 import eezn.todolist.minitodo.domain.Todo;
 
 import java.util.List;
@@ -10,6 +11,8 @@ public interface TodoRepository {
     Todo insert(Todo todo);
 
     void update(Todo todo);
+
+    void updateStatus(Integer id, StatusEnum status);
 
     void updateDeleteFlag(Todo todo);
 

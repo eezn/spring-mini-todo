@@ -1,5 +1,6 @@
 package eezn.todolist.minitodo.repository.jdbctemplate;
 
+import eezn.todolist.minitodo.domain.StatusEnum;
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +45,6 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     public void update(Todo todo) {
         jdbcTemplate.update(
                 "update todo_list set " +
-                        "user_id = ?, " +
-                        "created_time = ?, " +
                         "modified_time = ?, " +
                         "todo_content = ?, " +
                         "todo_is_deleted = ?, " +
@@ -53,8 +52,6 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
                         "priority_id = ?, " +
                         "status_id = ? " +
                         "where todo_id = ?",
-                todo.getUserId(),
-                todo.getCreatedTime(),
                 LocalDateTime.now(),
                 todo.getContent(),
                 todo.getIsDeleted(),
@@ -66,43 +63,50 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     }
 
     @Override
+    public void updateStatus(Integer id, StatusEnum status) {
+        jdbcTemplate.update("update todo_list set modified_time = ?, status_id = ? where todo_id = ?",
+                LocalDateTime.now(), status.ordinal(), id);
+    }
+
+    @Override
     public void updateDeleteFlag(Todo todo) {
         jdbcTemplate.update(
-                "update todo_list set todo_is_deleted = true where todo_id = ?", todo.getId());
+                "update todo_list set modified_time = ?, todo_is_deleted = true where todo_id = ?",
+                LocalDateTime.now(), todo.getId());
     }
 
     @Override
     public Optional<Todo> findById(Integer id) {
         List<Todo> result = jdbcTemplate.query(
-                "select * from todo_list where todo_id = ?", todoRowMapper(), id);
+                "select * from todo_list where todo_id = ? and todo_is_deleted = false", todoRowMapper(), id);
         return result.stream().findAny();
     }
 
     @Override
     public List<Todo> findByUserId(Integer userId) {
         List<Todo> result = jdbcTemplate.query(
-                "select * from todo_list where user_id = ?", todoRowMapper(), userId);
+                "select * from todo_list where user_id = ? and todo_is_deleted = false", todoRowMapper(), userId);
         return result;
     }
 
     @Override
     public List<Todo> findByCategoryId(Integer categoryId) {
         List<Todo> result = jdbcTemplate.query(
-                "select * from todo_list where category_id = ?", todoRowMapper(), categoryId);
+                "select * from todo_list where category_id = ? and todo_is_deleted = false", todoRowMapper(), categoryId);
         return result;
     }
 
     @Override
     public List<Todo> findByPriorityId(Integer priorityId) {
         List<Todo> result = jdbcTemplate.query(
-                "select * from todo_list where priority_id = ?", todoRowMapper(), priorityId);
+                "select * from todo_list where priority_id = ? and todo_is_deleted = false", todoRowMapper(), priorityId);
         return result;
     }
 
     @Override
     public List<Todo> findByStatusId(Integer statusId) {
         List<Todo> result = jdbcTemplate.query(
-                "select * from todo_list where status_id = ?", todoRowMapper(), statusId);
+                "select * from todo_list where status_id = ? and todo_is_deleted = false", todoRowMapper(), statusId);
         return result;
     }
 
@@ -115,13 +119,13 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     @Override
     public List<Todo> findActive() {
         return jdbcTemplate.query(
-                "select * from todo_list where todo_is_deleted != true", todoRowMapper());
+                "select * from todo_list where todo_is_deleted = false", todoRowMapper());
     }
 
     @Override
     public List<Todo> findDeactivated() {
         return jdbcTemplate.query(
-                "select * from todo_list where todo_is_deleted != false", todoRowMapper());
+                "select * from todo_list where todo_is_deleted = true", todoRowMapper());
     }
 
     @Override
