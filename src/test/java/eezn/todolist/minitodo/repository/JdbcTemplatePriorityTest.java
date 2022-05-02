@@ -1,7 +1,7 @@
 package eezn.todolist.minitodo.repository;
 
 import eezn.todolist.minitodo.domain.Priority;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplatePriorityRepository;
+import eezn.todolist.minitodo.domain.PriorityEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,20 +14,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JdbcTemplatePriorityTest {
 
     @Autowired
-    JdbcTemplatePriorityRepository repository;
+    PriorityRepository priorityRepository;
 
     @Test
     public void findByIdTest() {
 
-        Priority priorityA = repository.findById(1).get();
-        Priority priorityB = repository.findById(2).get();
-        Priority priorityC = repository.findById(3).get();
-        Priority priorityD = repository.findById(4).get();
+        Priority priorityA = priorityRepository.findById(PriorityEnum.A.getId()).get();
+        Priority priorityB = priorityRepository.findById(PriorityEnum.B.getId()).get();
+        Priority priorityC = priorityRepository.findById(PriorityEnum.C.getId()).get();
+        Priority priorityD = priorityRepository.findById(PriorityEnum.D.getId()).get();
 
-        System.out.println(priorityA);
-        System.out.println(priorityB);
-        System.out.println(priorityC);
-        System.out.println(priorityD);
+//        System.out.println(priorityA);
+//        System.out.println(priorityB);
+//        System.out.println(priorityC);
+//        System.out.println(priorityD);
 
         assertThat("A").isEqualTo(priorityA.getPriority());
         assertThat("B").isEqualTo(priorityB.getPriority());
@@ -38,11 +38,9 @@ public class JdbcTemplatePriorityTest {
     @Test
     public void findAllTest() {
 
-        List<Priority> findAll = repository.findAll();
+        List<Priority> findAll = priorityRepository.findAll();
 
-        for (Priority priority : findAll) {
-            System.out.println(priority.toString());
-        }
+//        findAll.forEach(System.out::println);
 
         assertThat("A").isEqualTo(findAll.get(0).getPriority());
         assertThat("B").isEqualTo(findAll.get(1).getPriority());

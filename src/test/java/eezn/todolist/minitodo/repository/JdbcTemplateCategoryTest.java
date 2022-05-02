@@ -1,7 +1,7 @@
 package eezn.todolist.minitodo.repository;
 
 import eezn.todolist.minitodo.domain.Category;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateCategoryRepository;
+import eezn.todolist.minitodo.domain.CategoryEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,18 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JdbcTemplateCategoryTest {
 
     @Autowired
-    JdbcTemplateCategoryRepository repository;
+    CategoryRepository categoryRepository;
 
     @Test
     public void findByIdTest() {
 
-        Category category1 = repository.findById(1).get();
-        Category category2 = repository.findById(2).get();
-        Category category3 = repository.findById(3).get();
+        Category category1 = categoryRepository.findById(CategoryEnum.DEFAULT.getId()).get();
+        Category category2 = categoryRepository.findById(CategoryEnum.WORK.getId()).get();
+        Category category3 = categoryRepository.findById(CategoryEnum.LIFE.getId()).get();
 
-        System.out.println(category1);
-        System.out.println(category2);
-        System.out.println(category3);
+//        System.out.println(category1);
+//        System.out.println(category2);
+//        System.out.println(category3);
 
         assertThat("default").isEqualTo(category1.getCategory());
         assertThat("work").isEqualTo(category2.getCategory());
@@ -35,11 +35,9 @@ public class JdbcTemplateCategoryTest {
     @Test
     public void findAllTest() {
 
-        List<Category> findAll = repository.findAll();
+        List<Category> findAll = categoryRepository.findAll();
 
-        for (Category category : findAll) {
-            System.out.println(category.toString());
-        }
+//        findAll.forEach(System.out::println);
 
         assertThat("default").isEqualTo(findAll.get(0).getCategory());
         assertThat("work").isEqualTo(findAll.get(1).getCategory());

@@ -1,7 +1,7 @@
 package eezn.todolist.minitodo.repository;
 
 import eezn.todolist.minitodo.domain.Status;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateStatusRepository;
+import eezn.todolist.minitodo.domain.StatusEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,31 +14,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JdbcTemplateStatusTest {
 
     @Autowired
-    JdbcTemplateStatusRepository repository;
+    StatusRepository statusRepository;
 
     @Test
     public void findByIdTest() {
 
-        Status statusDone = repository.findById(1).get();
-        Status statusTodo = repository.findById(2).get();
+        Status statusDone = statusRepository.findById(StatusEnum.TODO.getId()).get();
+        Status statusTodo = statusRepository.findById(StatusEnum.DONE.getId()).get();
 
-        System.out.println(statusDone);
-        System.out.println(statusTodo);
+//        System.out.println(statusDone);
+//        System.out.println(statusTodo);
 
-        assertThat("done").isEqualTo(statusDone.getStatus());
-        assertThat("todo").isEqualTo(statusTodo.getStatus());
+        assertThat("todo").isEqualTo(statusDone.getStatus());
+        assertThat("done").isEqualTo(statusTodo.getStatus());
     }
 
     @Test
     public void findAllTest() {
 
-        List<Status> findAll = repository.findAll();
+        List<Status> findAll = statusRepository.findAll();
 
-        for (Status status : findAll) {
-            System.out.println(status.toString());
-        }
+//        findAll.forEach(System.out::println);
 
-        assertThat("done").isEqualTo(findAll.get(0).getStatus());
-        assertThat("todo").isEqualTo(findAll.get(1).getStatus());
+        assertThat("todo").isEqualTo(findAll.get(0).getStatus());
+        assertThat("done").isEqualTo(findAll.get(1).getStatus());
     }
 }
