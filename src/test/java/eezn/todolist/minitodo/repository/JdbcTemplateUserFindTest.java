@@ -126,6 +126,11 @@ public class JdbcTemplateUserFindTest {
                 assertThat(user.getIsDeleted()).isEqualTo(true));
     }
 
+    @Test
+    public void conutUserTest() {
+        System.out.println(userRepository.countUser());
+    }
+
     @AfterAll
     static void afterAll() {
         userRepository.findAll().forEach(System.out::println);

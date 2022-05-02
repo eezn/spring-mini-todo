@@ -25,5 +25,7 @@ public interface UserRepository {
 
     List<User> findDeactivated();
 
+    int countUser();
+
     void clear();
 }

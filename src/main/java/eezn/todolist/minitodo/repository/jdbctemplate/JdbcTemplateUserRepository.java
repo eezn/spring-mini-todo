@@ -88,6 +88,12 @@ public class JdbcTemplateUserRepository implements UserRepository {
     }
 
     @Override
+    public int countUser() {
+        return jdbcTemplate.queryForObject(
+                "select COUNT(*) from users", Integer.class);
+    }
+
+    @Override
     public void clear() {
         jdbcTemplate.update("delete from users");
     }
