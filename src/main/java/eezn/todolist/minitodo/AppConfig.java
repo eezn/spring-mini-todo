@@ -28,7 +28,7 @@ public class AppConfig {
 
     @Bean
     public TodoService todoService() {
-        return new TodoService(todoRepository(), userRepository(), categoryRepository(), priorityRepository());
+        return new TodoService(userRepository(), todoRepository(), categoryRepository(), priorityRepository());
     }
 
     @Bean
