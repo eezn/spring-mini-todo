@@ -21,9 +21,9 @@ public interface UserRepository {
 
     List<User> findAll();
 
-//    List<User> findActive();
-//
-//    List<User> findDeactivated();
+    List<User> findActive();
+
+    List<User> findDeactivated();
 
     void clear();
 }

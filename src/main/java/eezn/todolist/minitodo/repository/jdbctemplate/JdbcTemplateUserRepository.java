@@ -75,17 +75,17 @@ public class JdbcTemplateUserRepository implements UserRepository {
                     "select * from users", userRowMapper());
     }
 
-//    @Override
-//    public List<User> findActive() {
-//        return jdbcTemplate.query(
-//                "select * from users where and user_is_deleted is not true", userRowMapper());
-//    }
-//
-//    @Override
-//    public List<User> findDeactivated() {
-//        return jdbcTemplate.query(
-//                "select * from users where and user_is_deleted is not false", userRowMapper());
-//    }
+    @Override
+    public List<User> findActive() {
+        return jdbcTemplate.query(
+                "select * from users where user_is_deleted is not true", userRowMapper());
+    }
+
+    @Override
+    public List<User> findDeactivated() {
+        return jdbcTemplate.query(
+                "select * from users where user_is_deleted is true", userRowMapper());
+    }
 
     @Override
     public void clear() {

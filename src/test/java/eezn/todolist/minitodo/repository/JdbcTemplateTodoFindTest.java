@@ -1,86 +1,92 @@
 package eezn.todolist.minitodo.repository;
 
-import eezn.todolist.minitodo.domain.Todo;
-import eezn.todolist.minitodo.domain.User;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateTodoRepository;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateUserRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import eezn.todolist.minitodo.AppConfig;
+import eezn.todolist.minitodo.domain.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 public class JdbcTemplateTodoFindTest {
 
-    @Autowired JdbcTemplateTodoRepository todoRepository;
-    @Autowired JdbcTemplateUserRepository userRepository;
+    static TodoRepository todoRepository;
+    static UserRepository userRepository;
 
     static User user;
-    static Todo todo1;
-    static Todo todo2;
-    static Todo todo3;
+    static Todo todo1, todo2, todo3;
 
-    @BeforeEach
-    public void beforeEach() {
+    @BeforeAll
+    static void beforeAll() {
+        DataSource dataSource = new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript("classpath:db/scheme.sql")
+                .build();
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        AppConfig appConfig = new AppConfig(jdbcTemplate);
+
+        userRepository = appConfig.userRepository();
+        todoRepository = appConfig.todoRepository();
 
         user = new User();
-        user.setUsername("user");
-        user.setPassword("123");
-        user.setEmail("123@abc.com");
-        user.setIsDeleted(false);
+        todo1 = new Todo();
+        todo2 = new Todo();
+        todo3 = new Todo();
+
+        LocalDateTime currTime;
+
+        user.setUsername("TEST_USER");
+        user.setPassword("TEST_USER_PASSWORD");
+        user.setEmail("TEST_USER_EMAIL");
 
         userRepository.insert(user);
 
-        todo1 = new Todo();
-        todo1.setUserId(userRepository.findById(1).get().getId());
-        todo1.setCreatedTime(LocalDateTime.now());
-        todo1.setModifiedTime(LocalDateTime.now());
-        todo1.setContent("오늘의 할 일");
+        todo1.setUserId(1);
+        currTime = LocalDateTime.now();
+        todo1.setCreatedTime(currTime);
+        todo1.setModifiedTime(currTime);
+        todo1.setContent("TEST_TODO1_CONTENT");
         todo1.setIsDeleted(false);
-        todo1.setCategoryId(1);
-        todo1.setPriorityId(1);
-        todo1.setStatusId(2);
+        todo1.setCategoryId(CategoryEnum.DEFAULT.getId());
+        todo1.setPriorityId(PriorityEnum.A.getId());
+        todo1.setStatusId(StatusEnum.TODO.getId());
 
-        todo2 = new Todo();
-        todo2.setUserId(userRepository.findById(1).get().getId());
-        todo2.setCreatedTime(LocalDateTime.now());
-        todo2.setModifiedTime(LocalDateTime.now());
-        todo2.setContent("내일의 할 일");
+        todo2.setUserId(1);
+        currTime = LocalDateTime.now();
+        todo2.setCreatedTime(currTime);
+        todo2.setModifiedTime(currTime);
+        todo2.setContent("TEST_TODO2_CONTENT");
         todo2.setIsDeleted(false);
-        todo2.setCategoryId(1);
-        todo2.setPriorityId(2);
-        todo2.setStatusId(1);
+        todo2.setCategoryId(CategoryEnum.DEFAULT.getId());
+        todo2.setPriorityId(PriorityEnum.A.getId());
+        todo2.setStatusId(StatusEnum.TODO.getId());
 
-        todo3 = new Todo();
-        todo3.setUserId(userRepository.findById(1).get().getId());
-        todo3.setCreatedTime(LocalDateTime.now());
-        todo3.setModifiedTime(LocalDateTime.now());
-        todo3.setContent("사야할 것");
+        todo3.setUserId(1);
+        currTime = LocalDateTime.now();
+        todo3.setCreatedTime(currTime);
+        todo3.setModifiedTime(currTime);
+        todo3.setContent("TEST_TODO3_CONTENT");
         todo3.setIsDeleted(false);
-        todo3.setCategoryId(2);
-        todo3.setPriorityId(4);
-        todo3.setStatusId(1);
+        todo3.setCategoryId(CategoryEnum.DEFAULT.getId());
+        todo3.setPriorityId(PriorityEnum.A.getId());
+        todo3.setStatusId(StatusEnum.TODO.getId());
 
         todoRepository.insert(todo1);
         todoRepository.insert(todo2);
         todoRepository.insert(todo3);
     }
 
-    @AfterEach
-    public void afterEach() {
-        todoRepository.clear();
-    }
-
     @Test
     public void findByUserIdTest() {
 
-        List<Todo> todoList = todoRepository.findByUserId(1);
+        List<Todo> todoList = todoRepository.findByUserId(user.getId());
         todoList.forEach(System.out::println);
         todoList.forEach(todo -> assertThat(1).isEqualTo(todo.getUserId()));
     }
@@ -88,25 +94,25 @@ public class JdbcTemplateTodoFindTest {
     @Test
     public void findByCategoryIdTest() {
 
-        List<Todo> todoList = todoRepository.findByCategoryId(1);
+        List<Todo> todoList = todoRepository.findByCategoryId(CategoryEnum.DEFAULT.getId());
         todoList.forEach(System.out::println);
-        todoList.forEach(todo -> assertThat(1).isEqualTo(todo.getCategoryId()));
+        todoList.forEach(todo -> assertThat(CategoryEnum.DEFAULT.getId()).isEqualTo(todo.getCategoryId()));
     }
 
     @Test
     public void findByPriorityIdTest() {
 
-        List<Todo> todoList = todoRepository.findByPriorityId(4);
+        List<Todo> todoList = todoRepository.findByPriorityId(PriorityEnum.A.getId());
         todoList.forEach(System.out::println);
-        todoList.forEach(todo -> assertThat(4).isEqualTo(todo.getPriorityId()));
+        todoList.forEach(todo -> assertThat(PriorityEnum.A.getId()).isEqualTo(todo.getPriorityId()));
     }
 
     @Test
     public void findByStatusIdTest() {
 
-        List<Todo> todoList = todoRepository.findByStatusId(1);
+        List<Todo> todoList = todoRepository.findByStatusId(StatusEnum.TODO.getId());
         todoList.forEach(System.out::println);
-        todoList.forEach(todo -> assertThat(1).isEqualTo(todo.getStatusId()));
+        todoList.forEach(todo -> assertThat(StatusEnum.TODO.getId()).isEqualTo(todo.getStatusId()));
     }
 
     @Test

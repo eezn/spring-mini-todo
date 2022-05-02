@@ -1,60 +1,128 @@
 package eezn.todolist.minitodo.repository;
 
-import eezn.todolist.minitodo.domain.Todo;
-import eezn.todolist.minitodo.domain.User;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateTodoRepository;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateUserRepository;
-import org.junit.jupiter.api.BeforeEach;
+import eezn.todolist.minitodo.AppConfig;
+import eezn.todolist.minitodo.domain.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 public class JdbcTemplateTodoUpdateTest {
 
-    @Autowired JdbcTemplateTodoRepository todoRepository;
-    @Autowired JdbcTemplateUserRepository userRepository;
+    static TodoRepository todoRepository;
+    static UserRepository userRepository;
 
     static User user;
-    static Todo todo;
+    static Todo todo1, todo2, todo3;
 
-    @BeforeEach
-    public void beforeEach() {
+    @BeforeAll
+    static void beforeAll() {
+        DataSource dataSource = new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript("classpath:db/scheme.sql")
+                .build();
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        AppConfig appConfig = new AppConfig(jdbcTemplate);
+
+        userRepository = appConfig.userRepository();
+        todoRepository = appConfig.todoRepository();
 
         user = new User();
-        user.setUsername("user");
-        user.setPassword("123");
-        user.setEmail("123@abc.com");
-        user.setIsDeleted(false);
+        todo1 = new Todo();
+        todo2 = new Todo();
+        todo3 = new Todo();
 
-        todo = new Todo();
-        todo.setUserId(userRepository.insert(user).getId());
-        todo.setCreatedTime(LocalDateTime.now());
-        todo.setModifiedTime(LocalDateTime.now());
-        todo.setContent("오늘의 할 일");
-        todo.setIsDeleted(false);
-        todo.setCategoryId(1);
-        todo.setPriorityId(1);
-        todo.setStatusId(1);
+        LocalDateTime currTime;
 
-        todoRepository.insert(todo);
+        user.setUsername("TEST_USER");
+        user.setPassword("TEST_USER_PASSWORD");
+        user.setEmail("TEST_USER_EMAIL");
 
-        // LocalDateTime.now()
-        // LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault())
+        userRepository.insert(user);
+
+        todo1.setUserId(1);
+        currTime = LocalDateTime.now();
+        todo1.setCreatedTime(currTime);
+        todo1.setModifiedTime(currTime);
+        todo1.setContent("TEST_TODO1_CONTENT");
+        todo1.setIsDeleted(false);
+        todo1.setCategoryId(CategoryEnum.DEFAULT.getId());
+        todo1.setPriorityId(PriorityEnum.A.getId());
+        todo1.setStatusId(StatusEnum.TODO.getId());
+
+        todo2.setUserId(1);
+        currTime = LocalDateTime.now();
+        todo2.setCreatedTime(currTime);
+        todo2.setModifiedTime(currTime);
+        todo2.setContent("TEST_TODO2_CONTENT");
+        todo2.setIsDeleted(false);
+        todo2.setCategoryId(CategoryEnum.DEFAULT.getId());
+        todo2.setPriorityId(PriorityEnum.A.getId());
+        todo2.setStatusId(StatusEnum.TODO.getId());
+
+        todo3.setUserId(1);
+        currTime = LocalDateTime.now();
+        todo3.setCreatedTime(currTime);
+        todo3.setModifiedTime(currTime);
+        todo3.setContent("TEST_TODO3_CONTENT");
+        todo3.setIsDeleted(false);
+        todo3.setCategoryId(CategoryEnum.DEFAULT.getId());
+        todo3.setPriorityId(PriorityEnum.A.getId());
+        todo3.setStatusId(StatusEnum.TODO.getId());
+
+        todoRepository.insert(todo1);
+        todoRepository.insert(todo2);
+        todoRepository.insert(todo3);
     }
 
     @Test
     public void updateTest() {
 
-        Todo tempTodo = todoRepository.findById(1).get();
-        tempTodo.setContent("내일의 할 일");
-        todoRepository.update(tempTodo);
-        todoRepository.updateDeleteFlag(todo);
-        assertThat("내일의 할 일").isEqualTo(todoRepository.findById(1).get().getContent());
-        assertThat(true).isEqualTo(todoRepository.findById(1).get().getIsDeleted());
+        todoRepository.findById(1).ifPresent(todo -> {
+            todo.setContent("TEST_TODO1_MODIFIED_CONTENT");
+            todoRepository.update(todo);
+        });
+
+        todoRepository.findById(1).ifPresent(todo -> {
+            assertThat(todo.getContent()).isEqualTo("TEST_TODO1_MODIFIED_CONTENT");
+            assertThat(todo.getModifiedTime()).isNotEqualTo(todo.getCreatedTime());
+        });
+    }
+
+    @Test
+    public void updateStatusTest() {
+
+        todoRepository.findById(2).ifPresent(todo ->
+                todoRepository.updateStatus(2, StatusEnum.DONE));
+
+        todoRepository.findById(2).ifPresent(todo -> {
+            assertThat(todo.getStatusId()).isNotEqualTo(StatusEnum.TODO.getId());
+            assertThat(todo.getModifiedTime()).isNotEqualTo(todo.getCreatedTime());
+        });
+    }
+
+    @Test
+    public void updateDeleteFlagTest() {
+
+        todoRepository.findById(3).ifPresent(todo ->
+                todoRepository.updateDeleteFlag(todo));
+
+        todoRepository.findById(3).ifPresent(todo -> {
+            assertThat(todo.getIsDeleted()).isEqualTo(true);
+            assertThat(todo.getModifiedTime()).isNotEqualTo(todo.getCreatedTime());
+        });
+    }
+
+    @AfterAll
+    static void afterAll() {
+        todoRepository.findAll().forEach(System.out::println);
     }
 }

@@ -65,7 +65,7 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     @Override
     public void updateStatus(Integer id, StatusEnum status) {
         jdbcTemplate.update("update todo_list set modified_time = ?, status_id = ? where todo_id = ?",
-                LocalDateTime.now(), status.ordinal(), id);
+                LocalDateTime.now(), status.getId(), id);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     @Override
     public List<Todo> findByPriorityId(Integer priorityId) {
         List<Todo> result = jdbcTemplate.query(
-                "select * from todo_list where priority_id = ", todoRowMapper(), priorityId);
+                "select * from todo_list where priority_id = ?", todoRowMapper(), priorityId);
         return result;
     }
 
@@ -116,17 +116,17 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
                 "select * from todo_list", todoRowMapper());
     }
 
-//    @Override
-//    public List<Todo> findActive() {
-//        return jdbcTemplate.query(
-//                "select * from todo_list where todo_is_deleted = false", todoRowMapper());
-//    }
-//
-//    @Override
-//    public List<Todo> findDeactivated() {
-//        return jdbcTemplate.query(
-//                "select * from todo_list where todo_is_deleted = true", todoRowMapper());
-//    }
+    @Override
+    public List<Todo> findActive() {
+        return jdbcTemplate.query(
+                "select * from todo_list where todo_is_deleted is not true", todoRowMapper());
+    }
+
+    @Override
+    public List<Todo> findDeactivated() {
+        return jdbcTemplate.query(
+                "select * from todo_list where todo_is_deleted is true", todoRowMapper());
+    }
 
     @Override
     public void clear() {

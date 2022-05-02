@@ -1,82 +1,85 @@
 package eezn.todolist.minitodo.repository;
 
+import eezn.todolist.minitodo.AppConfig;
 import eezn.todolist.minitodo.domain.User;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateUserRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import java.util.List;
+import javax.sql.DataSource;
 
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class JdbcTemplateUserUpdateTest {
 
-    @Autowired
-    JdbcTemplateUserRepository repository;
+    static UserRepository userRepository;
 
-    static User user1;
-    static User user2;
-    static User user3;
+    static User user1, user2, user3;
 
-    @BeforeEach
-    public void beforeEach() {
+    @BeforeAll
+    static void beforeAll() {
+        DataSource dataSource = new EmbeddedDatabaseBuilder()
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript("classpath:db/scheme.sql")
+                .build();
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        AppConfig appConfig = new AppConfig(jdbcTemplate);
+
+        userRepository = appConfig.userRepository();
 
         user1 = new User();
-        user1.setUsername("user1");
-        user1.setPassword("123");
-        user1.setEmail("123@abc.com");
-        user1.setIsDeleted(false);
-
         user2 = new User();
-        user2.setUsername("user2");
-        user2.setPassword("456");
-        user2.setEmail("456@abc.com");
-        user2.setIsDeleted(false);
-
         user3 = new User();
-        user3.setUsername("user3");
-        user3.setPassword("789");
-        user3.setEmail("789@abc.com");
-        user3.setIsDeleted(true);
 
-        repository.insert(user1);
-        repository.insert(user2);
-        repository.insert(user3);
-    }
+        user1.setUsername("TEST_USER1");
+        user1.setPassword("TEST_USER1_PASSWORD");
+        user1.setEmail("TEST_USER1_EMAIL");
 
-    @AfterEach
-    public void afterEach() {
-        repository.clear();
+        user2.setUsername("TEST_USER2");
+        user2.setPassword("TEST_USER2_PASSWORD");
+        user2.setEmail("TEST_USER2_EMAIL");
+
+        user3.setUsername("TEST_USER3");
+        user3.setPassword("TEST_USER3_PASSWORD");
+        user3.setEmail("TEST_USER3_EMAIL");
+
+        userRepository.insert(user1);
+        userRepository.insert(user2);
+        userRepository.insert(user3);
     }
 
     @Test
     public void updateTest() {
 
-        List<User> users = repository.findAll();
-        users.forEach(System.out::println);
+        userRepository.findById(1).ifPresent(user -> {
+            user.setUsername("TEST_USER1_MODIFIED");
+            user.setPassword("TEST_USER1_PASSWORD_MODIFIED");
+            user.setEmail("TEST_USER1_EMAIL_MODIFIED");
+            userRepository.update(user);
+        });
 
-        users.get(0).setUsername("new_name");
-        users.get(1).setPassword("new_password");
-        users.get(2).setEmail("new_email");
-
-        repository.update(users.get(0));
-        repository.update(users.get(1));
-        repository.update(users.get(2));
-
-        repository.updateDeleteFlag(users.get(0));
-        repository.updateDeleteFlag(users.get(1));
-
-        List<User> updatedUsers = repository.findAll();
-        updatedUsers.forEach(System.out::println);
-
-        Assertions.assertThat("new_name").isEqualTo(updatedUsers.get(0).getUsername());
-        Assertions.assertThat("new_password").isEqualTo(updatedUsers.get(1).getPassword());
-        Assertions.assertThat("new_email").isEqualTo(updatedUsers.get(2).getEmail());
-
-        updatedUsers.forEach(user -> Assertions.assertThat(true).isEqualTo(user.getIsDeleted()));
+        userRepository.findByName("TEST_USER1_MODIFIED").ifPresent(user -> {
+            assertThat(user.getPassword()).isEqualTo("TEST_USER1_PASSWORD_MODIFIED");
+            assertThat(user.getEmail()).isEqualTo("TEST_USER1_EMAIL_MODIFIED");
+        });
     }
 
+    @Test
+    public void updateDeleteFlagTest() {
+
+        userRepository.findById(2).ifPresent(user ->
+                userRepository.updateDeleteFlag(user));
+
+        userRepository.findById(2).ifPresent(user ->
+                assertThat(user.getIsDeleted()).isEqualTo(true));
+    }
+
+    @AfterAll
+    static void afterAll() {
+        userRepository.findAll().forEach(System.out::println);
+    }
 }

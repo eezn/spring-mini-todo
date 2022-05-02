@@ -28,9 +28,9 @@ public interface TodoRepository {
 
     List<Todo> findAll();
 
-//    List<Todo> findActive();
-//
-//    List<Todo> findDeactivated();
+    List<Todo> findActive();
+
+    List<Todo> findDeactivated();
 
     void clear();
 }
