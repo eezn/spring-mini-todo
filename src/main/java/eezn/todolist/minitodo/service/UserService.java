@@ -2,8 +2,8 @@ package eezn.todolist.minitodo.service;
 
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.domain.User;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateTodoRepository;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateUserRepository;
+import eezn.todolist.minitodo.repository.TodoRepository;
+import eezn.todolist.minitodo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final JdbcTemplateUserRepository userRepository;
-    private final JdbcTemplateTodoRepository todoRepository;
+    private final UserRepository userRepository;
+    private final TodoRepository todoRepository;
 
     public void join(User user) throws IllegalStateException {
         validateDuplicateUser(user);

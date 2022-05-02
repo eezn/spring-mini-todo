@@ -1,7 +1,12 @@
 package eezn.todolist.minitodo.service;
 
+import eezn.todolist.minitodo.domain.Priority;
 import eezn.todolist.minitodo.domain.StatusEnum;
 import eezn.todolist.minitodo.domain.Todo;
+import eezn.todolist.minitodo.repository.CategoryRepository;
+import eezn.todolist.minitodo.repository.PriorityRepository;
+import eezn.todolist.minitodo.repository.TodoRepository;
+import eezn.todolist.minitodo.repository.UserRepository;
 import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateCategoryRepository;
 import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplatePriorityRepository;
 import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateTodoRepository;
@@ -15,10 +20,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TodoService {
 
-    private final JdbcTemplateTodoRepository todoRepository;
-    private final JdbcTemplateUserRepository userRepository;
-    private final JdbcTemplateCategoryRepository categoryRepository;
-    private final JdbcTemplatePriorityRepository priorityRepository;
+    private final TodoRepository todoRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final PriorityRepository priorityRepository;
 
     public void create(Todo todo) throws IllegalStateException {
         validateUser(todo);
