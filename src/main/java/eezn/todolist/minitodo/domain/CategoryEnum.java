@@ -6,13 +6,13 @@ public enum CategoryEnum {
     WORK(2),
     LIFE(3);
 
-    private final int category;
+    private final int id;
 
-    CategoryEnum(int category) {
-        this.category = category;
+    CategoryEnum(int id) {
+        this.id = id;
     }
 
-    public int getCategory() {
-        return category;
+    public int getId() {
+        return id;
     }
 }

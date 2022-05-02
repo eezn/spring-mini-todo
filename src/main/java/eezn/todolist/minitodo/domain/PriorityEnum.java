@@ -7,13 +7,13 @@ public enum PriorityEnum {
     C(3),
     D(4);
 
-    private final int priority;
+    private final int id;
 
-    PriorityEnum(int priority) {
-        this.priority = priority;
+    PriorityEnum(int id) {
+        this.id = id;
     }
 
-    public int getPriority() {
-        return priority;
+    public int getId() {
+        return id;
     }
 }

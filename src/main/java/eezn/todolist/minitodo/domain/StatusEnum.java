@@ -5,13 +5,13 @@ public enum StatusEnum {
     TODO(1),
     DONE(2);
 
-    private final int status;
+    private final int id;
 
-    StatusEnum(int status) {
-        this.status = status;
+    StatusEnum(int id) {
+        this.id = id;
     }
 
-    public int getStatus() {
-        return status;
+    public int getId() {
+        return id;
     }
 }
