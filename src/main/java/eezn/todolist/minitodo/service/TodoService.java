@@ -50,6 +50,11 @@ public class TodoService {
         }
     }
 
+    public Todo findById(Integer todoId) {
+        validateTodo(todoId);
+        return todoRepository.findById(todoId).get();
+    }
+
     /** userId */
     public List<Todo> findByUserId(Integer userId) {
         validateUser(userId);
