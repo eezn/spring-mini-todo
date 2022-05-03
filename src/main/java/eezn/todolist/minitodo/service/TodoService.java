@@ -9,7 +9,8 @@ import eezn.todolist.minitodo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,50 +22,25 @@ public class TodoService {
     private final PriorityRepository priorityRepository;
 
     public void create(Todo todo) throws IllegalStateException {
-        validateUser(todo);
-        validateCategory(todo);
-        validatePriority(todo);
+        validateUser(todo.getUserId());
+        validateCategory(todo.getCategoryId());
+        validatePriority(todo.getPriorityId());
         todoRepository.insert(todo);
     }
 
     public void update(Todo todo) throws IllegalStateException {
-        validateUser(todo);
-        validateCategory(todo);
-        validatePriority(todo);
+        validateUser(todo.getUserId());
+        validateCategory(todo.getCategoryId());
+        validatePriority(todo.getPriorityId());
         todoRepository.update(todo);
-    }
-
-    private void validateUser(Todo todo) throws IllegalStateException {
-        if (userRepository.findById(todo.getUserId()).isEmpty()) {
-            throw new IllegalStateException("존재하지 않는 회원입니다.");
-        }
-    }
-
-    private void validateCategory(Todo todo) throws IllegalStateException {
-        if (categoryRepository.findById(todo.getCategoryId()).isEmpty()) {
-            throw new IllegalStateException("존재하지 않는 카테고리 항목입니다.");
-        }
-    }
-
-    private void validatePriority(Todo todo) throws IllegalStateException {
-        if (priorityRepository.findById(todo.getPriorityId()).isEmpty()) {
-            throw new IllegalStateException("존재하지 않는 우선순위 항목입니다.");
-        }
     }
 
     public void toggleStatus(Integer todoId) throws IllegalStateException {
         validateTodo(todoId);
-        if (todoRepository.findById(todoId).get().getStatusId() == StatusEnum.TODO.ordinal()) {
+        if (todoRepository.findById(todoId).get().getStatusId() == StatusEnum.TODO.getId()) {
             todoRepository.updateStatus(todoId, StatusEnum.DONE);
         } else {
             todoRepository.updateStatus(todoId, StatusEnum.TODO);
-        }
-    }
-
-    private void validateTodo(Integer todoId) throws IllegalStateException {
-        Optional<Todo> todo = todoRepository.findById(todoId);
-        if (todo.isEmpty() || todo.get().getIsDeleted()) {
-            throw new IllegalStateException("존재하지 않는 항목입니다.");
         }
     }
 
@@ -74,4 +50,59 @@ public class TodoService {
         }
     }
 
+    /** userId */
+    public List<Todo> findByUserId(Integer userId) {
+        validateUser(userId);
+        return todoRepository.findByUserId(userId)
+                .stream()
+                .filter(todo -> todo.getIsDeleted().equals(false))
+                .collect(Collectors.toList());
+    }
+
+    /** userId, categoryId */
+    public List<Todo> findByCategoryId(Integer userId, Integer categoryId) {
+        validateUser(userId);
+        validateCategory(categoryId);
+        return todoRepository.findByUserId(userId)
+                .stream()
+                .filter(todo -> todo.getIsDeleted().equals(false)
+                        && todo.getCategoryId().equals(categoryId))
+                .collect(Collectors.toList());
+    }
+
+    /** userId, statusId */
+    public List<Todo> findByStatusId(Integer userId, Integer statusId) {
+        validateUser(userId);
+        validatePriority(statusId);
+        return todoRepository.findByUserId(userId)
+                .stream()
+                .filter(todo -> todo.getIsDeleted().equals(false)
+                        && todo.getStatusId().equals(statusId))
+                .collect(Collectors.toList());
+    }
+
+    private void validateUser(Integer userId) throws IllegalStateException {
+        if (userRepository.findById(userId).isEmpty()) {
+            throw new IllegalStateException("존재하지 않는 회원입니다.");
+        }
+    }
+
+    private void validateCategory(Integer categoryId) throws IllegalStateException {
+        if (categoryRepository.findById(categoryId).isEmpty()) {
+            throw new IllegalStateException("존재하지 않는 카테고리 항목입니다.");
+        }
+    }
+
+    private void validatePriority(Integer priorityId) throws IllegalStateException {
+        if (priorityRepository.findById(priorityId).isEmpty()) {
+            throw new IllegalStateException("존재하지 않는 우선순위 항목입니다.");
+        }
+    }
+
+    private void validateTodo(Integer todoId) throws IllegalStateException {
+        Optional<Todo> todo = todoRepository.findById(todoId);
+        if (todo.isEmpty() || todo.get().getIsDeleted()) {
+            throw new IllegalStateException("존재하지 않는 항목입니다.");
+        }
+    }
 }
