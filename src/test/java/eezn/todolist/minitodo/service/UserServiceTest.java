@@ -2,6 +2,7 @@ package eezn.todolist.minitodo.service;
 
 import eezn.todolist.minitodo.AppConfig;
 import eezn.todolist.minitodo.domain.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -50,8 +51,6 @@ public class UserServiceTest {
         userService.join(user1);
         userService.join(user2);
         userService.join(user3);
-
-        assertThat(userService.totalUser()).isEqualTo(3);
     }
 
     @Test
@@ -91,8 +90,8 @@ public class UserServiceTest {
     @Test
     public void findUserTest() {
 
-        assertThat(userService.findUser(1).getUsername()).isEqualTo("TEST_USER1");
-        assertThrows(IllegalStateException.class, () -> userService.findUser(4));
+        assertThat(userService.findUser(user1.getId()).getUsername()).isEqualTo("TEST_USER1");
+        assertThrows(IllegalStateException.class, () -> userService.findUser(100));
     }
 
     @Test
@@ -107,7 +106,8 @@ public class UserServiceTest {
         userService.deactivate(user2);
         userService.deactivate(user3);
 
-        userService.findAll().forEach(user ->
-                assertThat(user.getIsDeleted()).isEqualTo(true));
+        Assertions.assertThrows(IllegalStateException.class, () -> userService.findUser(user1.getId()));
+        Assertions.assertThrows(IllegalStateException.class, () -> userService.findUser(user2.getId()));
+        Assertions.assertThrows(IllegalStateException.class, () -> userService.findUser(user3.getId()));
     }
 }

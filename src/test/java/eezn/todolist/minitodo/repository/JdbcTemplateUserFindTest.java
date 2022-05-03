@@ -57,19 +57,19 @@ public class JdbcTemplateUserFindTest {
     @Test
     public void findByIdTest() {
 
-        userRepository.findById(1).ifPresent(user -> {
+        userRepository.findById(user1.getId()).ifPresent(user -> {
             assertThat(user.getUsername()).isEqualTo("TEST_USER1");
             assertThat(user.getPassword()).isEqualTo("TEST_USER1_PASSWORD");
             assertThat(user.getEmail()).isEqualTo("TEST_USER1_EMAIL");
         });
 
-        userRepository.findById(2).ifPresent(user -> {
+        userRepository.findById(user2.getId()).ifPresent(user -> {
             assertThat(user.getUsername()).isEqualTo("TEST_USER2");
             assertThat(user.getPassword()).isEqualTo("TEST_USER2_PASSWORD");
             assertThat(user.getEmail()).isEqualTo("TEST_USER2_EMAIL");
         });
 
-        userRepository.findById(3).ifPresent(user -> {
+        userRepository.findById(user3.getId()).ifPresent(user -> {
             assertThat(user.getUsername()).isEqualTo("TEST_USER3");
             assertThat(user.getPassword()).isEqualTo("TEST_USER3_PASSWORD");
             assertThat(user.getEmail()).isEqualTo("TEST_USER3_EMAIL");
