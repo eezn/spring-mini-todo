@@ -22,6 +22,7 @@ public class TodoService {
     private final PriorityRepository priorityRepository;
 
     public void create(Todo todo) throws IllegalStateException {
+        validateContent(todo);
         validateUser(todo.getUserId());
         validateCategory(todo.getCategoryId());
         validatePriority(todo.getPriorityId());
@@ -29,6 +30,7 @@ public class TodoService {
     }
 
     public void update(Todo todo) throws IllegalStateException {
+        validateContent(todo);
         validateUser(todo.getUserId());
         validateCategory(todo.getCategoryId());
         validatePriority(todo.getPriorityId());
@@ -84,6 +86,12 @@ public class TodoService {
                 .filter(todo -> todo.getIsDeleted().equals(false)
                         && todo.getStatusId().equals(statusId))
                 .collect(Collectors.toList());
+    }
+
+    private void validateContent(Todo todo) throws IllegalStateException {
+        if (todo.getContent().isEmpty()) {
+            throw new IllegalStateException("빈 문자열입니다.");
+        }
     }
 
     private void validateUser(Integer userId) throws IllegalStateException {
