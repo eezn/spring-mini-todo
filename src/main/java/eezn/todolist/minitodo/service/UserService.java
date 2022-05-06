@@ -57,6 +57,9 @@ public class UserService {
     }
 
     private void validateDuplicateUser(User user) throws IllegalStateException {
+        if (user.getUsername().length() == 0) {
+            throw new IllegalStateException("빈 문자열이 입력될 수 없습니다.");
+        }
         userRepository.findByName(user.getUsername()).ifPresent(m -> {
             throw new IllegalStateException("이미 사용중인 아이디입니다.");
         });
