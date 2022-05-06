@@ -24,17 +24,19 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     @Override
     public Todo insert(Todo todo) {
 
+        LocalDateTime currTime = LocalDateTime.now();
+
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("todo_list").usingGeneratedKeyColumns("todo_id");
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("user_id", todo.getUserId())
-                .addValue("created_time", todo.getCreatedTime())
-                .addValue("modified_time", todo.getModifiedTime())
+                .addValue("created_time", currTime)
+                .addValue("modified_time", currTime)
                 .addValue("todo_content", todo.getContent())
-                .addValue("todo_is_deleted", todo.getIsDeleted())
+                .addValue("todo_is_deleted", false)
                 .addValue("category_id", todo.getCategoryId())
                 .addValue("priority_id", todo.getPriorityId())
-                .addValue("status_id", todo.getStatusId());
+                .addValue("status_id", StatusEnum.TODO.getId());
 
         int key = jdbcInsert.executeAndReturnKey(params).intValue();
         todo.setId(key);

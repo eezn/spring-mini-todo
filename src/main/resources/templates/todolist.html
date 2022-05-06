@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>mini-todo | todolist</title>
+</head>
+
+<body>
+    <div>
+        <h3><a href="/">mini-todo</a></h3>
+    </div>
+    <div class="form">
+        <form action="todolist.html" th:action th:object="${todoForm}" method="post">
+            <div>
+                <label>할 일</label>
+                <input type="text" id="todo-content" th:field="*{content}"
+                       placeholder="Please input Todo Content">
+            </div>
+            <div>
+                <label>카테고리</label>
+                <select id="todo-category" th:field="*{categoryId}">
+                    <option th:value=2 th:text="WORK"></option>
+                    <option th:value=3 th:text="LIFE"></option>
+                </select>
+            </div>
+            <div>
+                <label>우선순위</label>
+                <select id="todo-priority" th:field="*{priorityId}">
+                    <option th:value=1 th:text="A"></option>
+                    <option th:value=2 th:text="B"></option>
+                    <option th:value=3 th:text="C"></option>
+                    <option th:value=4 th:text="D"></option>
+                </select>
+            </div>
+            <div class="button">
+                <button type="submit">todo 저장</button>
+            </div>
+        </form>
+    </div>
+    <div class="list">
+        <table>
+            <thead>
+                <tr>
+                    <th>todo_id</th>
+                    <th>created_time</th>
+                    <th>modified_time</th>
+                    <th>todo_content</th>
+                    <th>todo_is_deleted</th>
+                    <th>category_id</th>
+                    <th>priority_id</th>
+                    <th>status_id</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="todo : ${todoList}">
+                <td th:text="${todo.id}">todo_id</td>
+                <td th:text="${todo.createdTime}">created_time</td>
+                <td th:text="${todo.modifiedTime}">modified_time</td>
+                <td th:text="${todo.content}">todo_content</td>
+                <td th:text="${todo.isDeleted}">todo_is_deleted</td>
+                <td th:text="${todo.categoryId}">category_id</td>
+                <td th:text="${todo.priorityId}">priority_id</td>
+                <td th:text="${todo.statusId}">status_id</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
