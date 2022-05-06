@@ -7,7 +7,8 @@
 
 <body>
     <div>
-        <h3><a href="/">mini-todo</a></h3>
+        <h3 th:text="${userName}"></h3>
+        <a href="/">home</a>
     </div>
     <div class="form">
         <form action="todolist.html" th:action th:object="${todoForm}" method="post">

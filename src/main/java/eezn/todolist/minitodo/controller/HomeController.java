@@ -26,15 +26,22 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String join(@ModelAttribute("userForm") UserForm userForm) {
 
+        Integer id = 0;
         User user = new User();
         user.setUsername(userForm.getUsername());
         user.setPassword(userForm.getPassword());
         user.setEmail(userForm.getEmail());
+
         try {
-            userService.join(user);
+            id = userService.join(user).getId();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return "redirect:/";
+
+        if (id.equals(0)) {
+            return "redirect:/";
+        } else {
+            return "redirect:/todolist/?id=" + id;
+        }
     }
 }

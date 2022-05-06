@@ -17,10 +17,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final TodoRepository todoRepository;
 
-    public void join(User user) throws IllegalStateException {
+    public User join(User user) throws IllegalStateException {
         validateDuplicateUser(user);
         validateDuplicateEmail(user);
-        userRepository.insert(user);
+        return userRepository.insert(user);
     }
 
     public void update(User user) throws IllegalStateException {

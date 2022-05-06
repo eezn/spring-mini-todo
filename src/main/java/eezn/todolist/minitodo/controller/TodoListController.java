@@ -3,6 +3,7 @@ package eezn.todolist.minitodo.controller;
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.controller.form.TodoForm;
 import eezn.todolist.minitodo.service.TodoService;
+import eezn.todolist.minitodo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class TodoListController {
 
+    private final UserService userService;
     private final TodoService todoService;
 
     @RequestMapping(value = "/todolist", method = RequestMethod.GET)
     public String todoList(@RequestParam("id") int id, Model model) throws Exception {
+        model.addAttribute("userName", userService.findUser(id).getUsername());
         model.addAttribute("todoList", todoService.findByUserId(id));
         model.addAttribute("todoForm", new TodoForm());
         return "todolist";
