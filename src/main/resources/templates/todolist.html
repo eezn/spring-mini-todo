@@ -2,70 +2,83 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>mini-todo | todolist</title>
+    <title>MINI-TODO | TODOLIST</title>
+<!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <style>
+        div {
+            background-color: white;
+            border: 1px solid red;
+            padding: 5px;
+            margin: 5px;
+        }
+        .todo-list {
+            background-color: yellow;
+            border: 1px solid yellowgreen;
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
 </head>
 
 <body>
-    <div>
+<div class="container">
+    <header class="header">
         <h3 th:text="${userName}"></h3>
         <a href="/">home</a>
-    </div>
-    <div class="form">
-        <form action="todolist.html" th:action th:object="${todoForm}" method="post">
-            <div>
-                <label>할 일</label>
-                <input type="text" id="todo-content" th:field="*{content}"
-                       placeholder="Please input Todo Content">
+    </header>
+    <main class="main">
+        <div class="todo-form">
+            <form action="todolist.html" th:action th:object="${createForm}" method="post">
+                <div>
+                    <label>할 일</label>
+                    <input type="text" id="todo-content" name="content" th:field="*{content}"
+                           placeholder="Please input Todo Content">
+                </div>
+                <div>
+                    <label>카테고리</label>
+                    <select id="todo-category" name="categoryId" th:field="*{categoryId}">
+                        <option th:value=2 th:text="WORK"></option>
+                        <option th:value=3 th:text="LIFE"></option>
+                    </select>
+                </div>
+                <div>
+                    <label>우선순위</label>
+                    <select id="todo-priority" name="priorityId" th:field="*{priorityId}">
+                        <option th:value=1 th:text="Important_Urgent"></option>
+                        <option th:value=2 th:text="Important_NotUrgent"></option>
+                        <option th:value=3 th:text="NotImportant_Urgent"></option>
+                        <option th:value=4 th:text="NotImportant_NotUrgent"></option>
+                    </select>
+                </div>
+                <div class="button">
+                    <button type="submit">todo 저장</button>
+                </div>
+            </form>
+        </div>
+        <div class="todo-list">
+            <div th:each="todo : ${todoList}">
+                <div th:text="${todo.content}">todo_content</div>
+                <div> <!-- Select box -->
+                    <div th:if="${todo.categoryId} == 2">WORK</div>
+                    <div th:if="${todo.categoryId} == 3">LIFE</div>
+                </div>
+                <div> <!-- Select box -->
+                    <div th:if="${todo.priorityId} == 1">Important Urgent</div>
+                    <div th:if="${todo.priorityId} == 2">Important NotUrgent</div>
+                    <div th:if="${todo.priorityId} == 3">NotImportant Urgent</div>
+                    <div th:if="${todo.priorityId} == 4">NotImportant NotUrgent</div>
+                </div>
+                <div> <!-- Check box -->
+                    <div th:if="${todo.statusId} == 1">TODO</div>
+                    <div th:if="${todo.statusId} == 2">DONE</div>
+                </div>
+                <div> <!-- Button -->
+                    <div th:if="${todo.isDeleted} == false">가능 합니다.</div>
+                    <div th:unless="${todo.isDeleted == false}">불가능 합니다.</div>
+                </div>
             </div>
-            <div>
-                <label>카테고리</label>
-                <select id="todo-category" th:field="*{categoryId}">
-                    <option th:value=2 th:text="WORK"></option>
-                    <option th:value=3 th:text="LIFE"></option>
-                </select>
-            </div>
-            <div>
-                <label>우선순위</label>
-                <select id="todo-priority" th:field="*{priorityId}">
-                    <option th:value=1 th:text="A"></option>
-                    <option th:value=2 th:text="B"></option>
-                    <option th:value=3 th:text="C"></option>
-                    <option th:value=4 th:text="D"></option>
-                </select>
-            </div>
-            <div class="button">
-                <button type="submit">todo 저장</button>
-            </div>
-        </form>
-    </div>
-    <div class="list">
-        <table>
-            <thead>
-                <tr>
-                    <th>todo_id</th>
-                    <th>created_time</th>
-                    <th>modified_time</th>
-                    <th>todo_content</th>
-                    <th>todo_is_deleted</th>
-                    <th>category_id</th>
-                    <th>priority_id</th>
-                    <th>status_id</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr th:each="todo : ${todoList}">
-                <td th:text="${todo.id}">todo_id</td>
-                <td th:text="${todo.createdTime}">created_time</td>
-                <td th:text="${todo.modifiedTime}">modified_time</td>
-                <td th:text="${todo.content}">todo_content</td>
-                <td th:text="${todo.isDeleted}">todo_is_deleted</td>
-                <td th:text="${todo.categoryId}">category_id</td>
-                <td th:text="${todo.priorityId}">priority_id</td>
-                <td th:text="${todo.statusId}">status_id</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
+        </div>
+    </main>
+</div> <!--container-->
 </body>
 </html>

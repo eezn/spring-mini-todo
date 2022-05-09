@@ -1,6 +1,6 @@
 package eezn.todolist.minitodo.controller;
 
-import eezn.todolist.minitodo.controller.form.UserForm;
+import eezn.todolist.minitodo.controller.dto.UserDto;
 import eezn.todolist.minitodo.domain.User;
 import eezn.todolist.minitodo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,30 +18,31 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("userForm", new UserForm());
+        model.addAttribute("userList", userService.findAll());
+        model.addAttribute("userForm", new UserDto());
         return "home";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String join(@ModelAttribute("userForm") UserForm userForm) {
+    public String join(@ModelAttribute("userForm") UserDto userForm) {
 
-        Integer id = 0;
         User user = new User();
+
+        // userForm validation check
         user.setUsername(userForm.getUsername());
         user.setPassword(userForm.getPassword());
         user.setEmail(userForm.getEmail());
 
+        int id = 0;
         try {
             id = userService.join(user).getId();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        if (id.equals(0)) {
-            return "redirect:/";
-        } else {
-            return "redirect:/todolist/?id=" + id;
-        }
+        String ret = "redirect:/";
+        if (id != 0)
+            ret = "redirect:/todolist/" + id;
+        return ret;
     }
 }
