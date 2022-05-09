@@ -11,65 +11,61 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/todolist")
+@RequestMapping(value = "/user")
 public class TodoListController {
 
     private final UserService userService;
     private final TodoService todoService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String todoList(@PathVariable("id") int id, Model model) throws Exception {
-        try {
-            userService.findUser(id);
-        } catch (IllegalStateException e) {
+    public String read(@PathVariable("id") int id, Model model) throws Exception {
+
+        try { userService.findUser(id); }
+        catch (IllegalStateException e) {
             System.out.println(e.getMessage());
             return "redirect:/";
         }
+
         model.addAttribute("userName", userService.findUser(id).getUsername());
         model.addAttribute("todoList", todoService.findByUserId(id));
-        model.addAttribute("createForm", new TodoDto());
-        model.addAttribute("updateForm", new TodoDto());
-        return "todolist";
+        model.addAttribute("todoForm", new TodoDto());
+
+        return "user";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String create(@PathVariable("id") int id,
-                         @ModelAttribute("createForm") TodoDto createForm) {
-        try {
-            userService.findUser(id);
-        } catch (IllegalStateException e) {
+                         @ModelAttribute("todoForm") TodoDto todoForm) {
+
+        try { userService.findUser(id); }
+        catch (IllegalStateException e) {
             System.out.println(e.getMessage());
             return "redirect:/";
         }
+
         Todo todo = new Todo();
-
-        // createForm validation check
         todo.setUserId(id);
-        todo.setContent(createForm.getContent());
-        todo.setCategoryId(createForm.getCategoryId());
-        todo.setPriorityId(createForm.getPriorityId());
+        todo.setContent(todoForm.getContent());
+        todo.setCategoryId(todoForm.getCategoryId());
+        todo.setPriorityId(todoForm.getPriorityId());
 
-        try {
-            todoService.create(todo);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return "redirect:/todolist/" + id;
+        try { todoService.create(todo); }
+        catch (Exception e) { System.out.println(e.getMessage()); }
+
+        return "redirect:/user/" + id;
     }
 
-//    @RequestMapping(value = "/todolist", method = RequestMethod.POST)
-//    public String update(@RequestParam("id") int id,
-//                         @ModelAttribute("updateForm") TodoForm todoForm) {
-//
-//        return "redirect:/todolist/?id=" + id;
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public String update(@PathVariable("id") int id,
+                         @ModelAttribute("todoForm") TodoDto todoForm) {
 
+        return "redirect:/user/" + id;
+    }
 
-//    @RequestMapping(value = "/todolist", method = RequestMethod.POST)
-//    public String deactivateItem(@RequestParam("id") int id) {
-//        Todo todo = new Todo();
-//        // todoId
-//        todoService.deactivate(todo);
-//        return "redirect:/todolist/?id=" + id;
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable("id") int id,
+                         @RequestParam("todo") int todo) {
+        todoService.deactivate(todo);
+        return "redirect:/user/" + id;
+    }
 }

@@ -34,15 +34,12 @@ public class HomeController {
         user.setEmail(userForm.getEmail());
 
         int id = 0;
-        try {
-            id = userService.join(user).getId();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        try { id = userService.join(user).getId(); }
+        catch (Exception e) { System.out.println(e.getMessage()); }
 
         String ret = "redirect:/";
         if (id != 0)
-            ret = "redirect:/todolist/" + id;
+            ret = "redirect:/user/" + id;
         return ret;
     }
 }
