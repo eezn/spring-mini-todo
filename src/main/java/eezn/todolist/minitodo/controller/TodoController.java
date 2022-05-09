@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "/user")
-public class TodoListController {
+public class TodoController {
 
     private final UserService userService;
     private final TodoService todoService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String read(@PathVariable("id") int id, Model model) throws Exception {
+    public String read(@PathVariable("id") int id, Model model) {
 
         try { userService.findUser(id); }
         catch (IllegalStateException e) {
