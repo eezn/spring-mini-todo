@@ -1,7 +1,7 @@
 package eezn.todolist.minitodo.repository;
 
 import eezn.todolist.minitodo.domain.Status;
-import eezn.todolist.minitodo.domain.StatusEnum;
+import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,6 +1,6 @@
 package eezn.todolist.minitodo.service;
 
-import eezn.todolist.minitodo.domain.StatusEnum;
+import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.repository.CategoryRepository;
 import eezn.todolist.minitodo.repository.PriorityRepository;

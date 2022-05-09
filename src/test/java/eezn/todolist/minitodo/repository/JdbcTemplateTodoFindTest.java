@@ -2,6 +2,9 @@ package eezn.todolist.minitodo.repository;
 
 import eezn.todolist.minitodo.AppConfig;
 import eezn.todolist.minitodo.domain.*;
+import eezn.todolist.minitodo.domain.utils.CategoryEnum;
+import eezn.todolist.minitodo.domain.utils.PriorityEnum;
+import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;

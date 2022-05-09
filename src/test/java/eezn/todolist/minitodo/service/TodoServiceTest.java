@@ -2,6 +2,9 @@ package eezn.todolist.minitodo.service;
 
 import eezn.todolist.minitodo.AppConfig;
 import eezn.todolist.minitodo.domain.*;
+import eezn.todolist.minitodo.domain.utils.CategoryEnum;
+import eezn.todolist.minitodo.domain.utils.PriorityEnum;
+import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import eezn.todolist.minitodo.repository.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

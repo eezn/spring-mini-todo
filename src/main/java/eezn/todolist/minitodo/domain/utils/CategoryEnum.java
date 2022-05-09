@@ -1,4 +1,4 @@
-package eezn.todolist.minitodo.domain;
+package eezn.todolist.minitodo.domain.utils;
 
 public enum CategoryEnum {
 

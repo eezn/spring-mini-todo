@@ -1,5 +1,8 @@
 package eezn.todolist.minitodo.domain;
 
+import eezn.todolist.minitodo.domain.utils.CategoryEnum;
+import eezn.todolist.minitodo.domain.utils.PriorityEnum;
+import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import org.junit.jupiter.api.Test;
 
 public class EnumTest {

@@ -1,7 +1,6 @@
 package eezn.todolist.minitodo.repository;
 
-import eezn.todolist.minitodo.domain.Category;
-import eezn.todolist.minitodo.domain.CategoryEnum;
+import eezn.todolist.minitodo.domain.utils.CategoryEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,9 +18,9 @@ public class JdbcTemplateCategoryTest {
     @Test
     public void findByIdTest() {
 
-        Category category1 = categoryRepository.findById(CategoryEnum.DEFAULT.getId()).get();
-        Category category2 = categoryRepository.findById(CategoryEnum.WORK.getId()).get();
-        Category category3 = categoryRepository.findById(CategoryEnum.LIFE.getId()).get();
+        eezn.todolist.minitodo.domain.Category category1 = categoryRepository.findById(CategoryEnum.DEFAULT.getId()).get();
+        eezn.todolist.minitodo.domain.Category category2 = categoryRepository.findById(CategoryEnum.WORK.getId()).get();
+        eezn.todolist.minitodo.domain.Category category3 = categoryRepository.findById(CategoryEnum.LIFE.getId()).get();
 
 //        System.out.println(category1);
 //        System.out.println(category2);
@@ -35,7 +34,7 @@ public class JdbcTemplateCategoryTest {
     @Test
     public void findAllTest() {
 
-        List<Category> findAll = categoryRepository.findAll();
+        List<eezn.todolist.minitodo.domain.Category> findAll = categoryRepository.findAll();
 
 //        findAll.forEach(System.out::println);
 
