@@ -14,7 +14,7 @@ public interface TodoRepository {
 
     void updateStatus(Integer id, StatusEnum status);
 
-    void updateDeleteFlag(Todo todo);
+    void updateDeleteFlag(Integer id);
 
     Optional<Todo> findById(Integer id);
 

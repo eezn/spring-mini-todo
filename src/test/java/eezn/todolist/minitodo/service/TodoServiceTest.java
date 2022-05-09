@@ -186,7 +186,7 @@ public class TodoServiceTest {
         todo.setStatusId(StatusEnum.TODO.getId());
 
         todoService.create(todo);
-        todoService.deactivate(todo);
+        todoService.deactivate(todo.getId());
         assertThrows(IllegalStateException.class, () -> todoService.findById(todo.getId()));
     }
 }

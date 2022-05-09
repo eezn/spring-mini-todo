@@ -71,10 +71,10 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     }
 
     @Override
-    public void updateDeleteFlag(Todo todo) {
+    public void updateDeleteFlag(Integer id) {
         jdbcTemplate.update(
                 "update todo_list set modified_time = ?, todo_is_deleted = true where todo_id = ?",
-                LocalDateTime.now(), todo.getId());
+                LocalDateTime.now(), id);
     }
 
     @Override

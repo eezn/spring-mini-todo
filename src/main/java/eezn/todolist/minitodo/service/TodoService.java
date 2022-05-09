@@ -46,9 +46,9 @@ public class TodoService {
         }
     }
 
-    public void deactivate(Todo todo) {
-        if (todoRepository.findById(todo.getId()).isPresent()) {
-            todoRepository.updateDeleteFlag(todo);
+    public void deactivate(Integer todoId) {
+        if (todoRepository.findById(todoId).isPresent()) {
+            todoRepository.updateDeleteFlag(todoId);
         }
     }
 

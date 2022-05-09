@@ -31,12 +31,12 @@ public class UserService {
     public void deactivate(User user) {
         if (userRepository.findById(user.getId()).isPresent()) {
             List<Todo> todoList = todoRepository.findByUserId(user.getId());
-            todoList.forEach(todoRepository::updateDeleteFlag);
+            todoList.forEach(todo -> todoRepository.updateDeleteFlag(todo.getId()));
             userRepository.updateDeleteFlag(user);
         }
     }
 
-    public User findUser(Integer UserId) {
+    public User findUser(Integer UserId) throws IllegalStateException {
         validateUser(UserId);
         return userRepository.findById(UserId).get();
     }

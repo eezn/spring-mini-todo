@@ -116,7 +116,7 @@ public class JdbcTemplateTodoUpdateTest {
     public void updateDeleteFlagTest() {
 
         todoRepository.findById(3).ifPresent(todo ->
-                todoRepository.updateDeleteFlag(todo));
+                todoRepository.updateDeleteFlag(todo.getId()));
 
         todoRepository.findById(3).ifPresent(todo -> {
             assertThat(todo.getIsDeleted()).isEqualTo(true);
