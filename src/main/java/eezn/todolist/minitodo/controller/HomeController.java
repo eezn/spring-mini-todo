@@ -27,19 +27,16 @@ public class HomeController {
     public String join(@ModelAttribute("userForm") UserDto userForm) {
 
         User user = new User();
-
-        // userForm validation check
         user.setUsername(userForm.getUsername());
         user.setPassword(userForm.getPassword());
         user.setEmail(userForm.getEmail());
 
-        int id = 0;
+        Integer id = 0;
         try { id = userService.join(user).getId(); }
         catch (Exception e) { System.out.println(e.getMessage()); }
 
         String ret = "redirect:/";
-        if (id != 0)
-            ret = "redirect:/user/" + id;
+        if (id != 0) ret = "redirect:/user/" + id;
         return ret;
     }
 }

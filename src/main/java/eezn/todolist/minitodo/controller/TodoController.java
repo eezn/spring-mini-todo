@@ -20,17 +20,16 @@ public class TodoController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String read(@PathVariable("id") int id, Model model) {
 
-        try { userService.findUser(id); }
-        catch (IllegalStateException e) {
+        try {
+            model.addAttribute("userId", id);
+            model.addAttribute("userName", userService.findUser(id).getUsername());
+            model.addAttribute("todoList", todoService.findByUserId(id));
+            model.addAttribute("todoForm", new TodoDto());
+            return "user";
+        } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
             return "redirect:/";
         }
-
-        model.addAttribute("userName", userService.findUser(id).getUsername());
-        model.addAttribute("todoList", todoService.findByUserId(id));
-        model.addAttribute("todoForm", new TodoDto());
-
-        return "user";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
@@ -43,29 +42,52 @@ public class TodoController {
             return "redirect:/";
         }
 
-        Todo todo = new Todo();
-        todo.setUserId(id);
-        todo.setContent(todoForm.getContent());
-        todo.setCategoryId(todoForm.getCategoryId());
-        todo.setPriorityId(todoForm.getPriorityId());
-
-        try { todoService.create(todo); }
-        catch (Exception e) { System.out.println(e.getMessage()); }
-
+        try {
+            Todo todo = new Todo();
+            todo.setUserId(id);
+            todo.setContent(todoForm.getContent());
+            todo.setCategoryId(todoForm.getCategoryId());
+            todo.setPriorityId(todoForm.getPriorityId());
+            todoService.create(todo);
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+        }
         return "redirect:/user/" + id;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String update(@PathVariable("id") int id,
-                         @ModelAttribute("todoForm") TodoDto todoForm) {
-
+    @RequestMapping(value = "/{id}/check", method = RequestMethod.POST)
+    public String check(@PathVariable("id") int id,
+                        @RequestParam("todo") int todoId) {
+        try { todoService.toggleStatus(todoId); }
+        catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+        }
         return "redirect:/user/" + id;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
     public String delete(@PathVariable("id") int id,
-                         @RequestParam("todo") int todo) {
-        todoService.deactivate(todo);
+                         @RequestParam("todo") int todoId) {
+        todoService.deactivate(todoId);
         return "redirect:/user/" + id;
     }
+
+    @RequestMapping(value = "/{id}/modify", method = RequestMethod.POST)
+    public String modify(@PathVariable("id") int id,
+                         @RequestParam("todo") int todoId, Model model) {
+
+        try {
+            userService.findUser(id);
+            model.addAttribute("userId", id);
+            model.addAttribute("userName", userService.findUser(id).getUsername());
+            model.addAttribute("todo", todoService.findById(todoId).getContent());
+            model.addAttribute("todoForm", new TodoDto());
+            return "modify";
+        }
+        catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+            return "redirect:/user/" + id;
+        }
+    }
+
 }

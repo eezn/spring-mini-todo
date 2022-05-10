@@ -55,26 +55,43 @@
                 </div>
             </form>
         </div>
-        <div class="todo-list">
+        <div class="todo-list"> <!-- 정렬, done todo -->
             <div th:each="todo : ${todoList}">
                 <div th:text="${todo.content}">todo_content</div>
-                <div> <!-- Select box -->
+                <div>
                     <div th:if="${todo.categoryId} == 2">WORK</div>
                     <div th:if="${todo.categoryId} == 3">LIFE</div>
                 </div>
-                <div> <!-- Select box -->
+                <div>
                     <div th:if="${todo.priorityId} == 1">Important Urgent</div>
                     <div th:if="${todo.priorityId} == 2">Important NotUrgent</div>
                     <div th:if="${todo.priorityId} == 3">NotImportant Urgent</div>
                     <div th:if="${todo.priorityId} == 4">NotImportant NotUrgent</div>
                 </div>
-                <div> <!-- Check box -->
+                <div>
                     <div th:if="${todo.statusId} == 1">TODO</div>
                     <div th:if="${todo.statusId} == 2">DONE</div>
                 </div>
                 <div> <!-- Button -->
                     <div th:if="${todo.isDeleted} == false">가능 합니다.</div>
                     <div th:unless="${todo.isDeleted == false}">불가능 합니다.</div>
+                </div>
+                <div>
+                    <form th:action="@{/user/{param1}/check(param1=${userId}, todo=${todo.getId()})}" th:method="post">
+                        <div class="button">
+                            <button type="submit">완료</button>
+                        </div>
+                    </form>
+                    <form th:action="@{/user/{param1}/modify(param1=${userId}, todo=${todo.getId()})}" th:method="post">
+                        <div class="button">
+                            <button type="submit">수정</button>
+                        </div>
+                    </form>
+                    <form th:action="@{/user/{param1}/delete(param1=${userId}, todo=${todo.getId()})}" th:method="post">
+                        <div class="button">
+                            <button type="submit">삭제</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
