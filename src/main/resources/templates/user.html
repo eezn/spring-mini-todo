@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MINI-TODO | TODOLIST</title>
-<!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
     <style>
         div {
             background-color: white;
@@ -77,17 +77,17 @@
                     <div th:unless="${todo.isDeleted == false}">불가능 합니다.</div>
                 </div>
                 <div>
-                    <form th:action="@{/user/{param1}/check(param1=${userId}, todo=${todo.getId()})}" th:method="post">
+                    <form th:action="@{/user/{id}/check(id=${userId}, todo=${todo.getId()})}" th:method="post">
                         <div class="button">
                             <button type="submit">완료</button>
                         </div>
                     </form>
-                    <form th:action="@{/user/{param1}/modify(param1=${userId}, todo=${todo.getId()})}" th:method="post">
+                    <form th:action="@{/user/{id}/modify(id=${userId}, todo=${todo.getId()})}" th:method="post">
                         <div class="button">
                             <button type="submit">수정</button>
                         </div>
                     </form>
-                    <form th:action="@{/user/{param1}/delete(param1=${userId}, todo=${todo.getId()})}" th:method="post">
+                    <form th:action="@{/user/{id}/delete(id=${userId}, todo=${todo.getId()})}" th:method="post">
                         <div class="button">
                             <button type="submit">삭제</button>
                         </div>
