@@ -2,12 +2,15 @@ package eezn.todolist.minitodo.controller;
 
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.controller.dto.TodoDto;
+import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import eezn.todolist.minitodo.service.TodoService;
 import eezn.todolist.minitodo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +28,22 @@ public class TodoController {
 
         // todo findByStatusId() -> TodoService에 구현
         //  Comparator(기준1. categoryId, 기준2. priorityId) -> sort 후 리스트 반환
+
+        // Test... -->
+        List<Todo> todo = todoService.findByStatusId(userId, StatusEnum.TODO.getId());
+        List<Todo> done = todoService.findByStatusId(userId, StatusEnum.DONE.getId());
+        System.out.println("해야할 일:");
+        for (Todo todo1 : todo) {
+            System.out.println(todo1);
+        }
+        System.out.println();
+
+        System.out.println("완료한 일:");
+        for (Todo todo1 : done) {
+            System.out.println(todo1);
+        }
+        System.out.println();
+        // <--
 
         try {
             model.addAttribute("userId", userId);
