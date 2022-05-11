@@ -23,32 +23,11 @@ public class TodoController {
     @RequestMapping(value = "/todolist", method = RequestMethod.GET)
     public String read(@PathVariable("id") int userId, Model model) {
 
-        // todo findByStatusId(Integer userId, Integer statusId)
-        //  -> TODO ? DONE -> 최종 두 개 리스트 -> Model -> View
-
-        // todo findByStatusId() -> TodoService에 구현
-        //  Comparator(기준1. categoryId, 기준2. priorityId) -> sort 후 리스트 반환
-
-        // Test... -->
-        List<Todo> todo = todoService.findByStatusId(userId, StatusEnum.TODO.getId());
-        List<Todo> done = todoService.findByStatusId(userId, StatusEnum.DONE.getId());
-        System.out.println("해야할 일:");
-        for (Todo todo1 : todo) {
-            System.out.println(todo1);
-        }
-        System.out.println();
-
-        System.out.println("완료한 일:");
-        for (Todo todo1 : done) {
-            System.out.println(todo1);
-        }
-        System.out.println();
-        // <--
-
         try {
             model.addAttribute("userId", userId);
             model.addAttribute("userName", userService.findUser(userId).getUsername());
-            model.addAttribute("todoList", todoService.findByUserId(userId));
+            model.addAttribute("todoList", todoService.findByStatusId(userId, StatusEnum.TODO.getId()));
+            model.addAttribute("doneList", todoService.findByStatusId(userId, StatusEnum.DONE.getId()));
             model.addAttribute("todoForm", new TodoDto());
             return "todolist";
         } catch (IllegalStateException e) {
