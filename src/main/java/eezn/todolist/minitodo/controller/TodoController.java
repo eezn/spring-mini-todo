@@ -20,6 +20,12 @@ public class TodoController {
     @RequestMapping(value = "/todolist", method = RequestMethod.GET)
     public String read(@PathVariable("id") int userId, Model model) {
 
+        // todo findByStatusId(Integer userId, Integer statusId)
+        //  -> TODO ? DONE -> 최종 두 개 리스트 -> Model -> View
+
+        // todo findByStatusId() -> TodoService에 구현
+        //  Comparator(기준1. categoryId, 기준2. priorityId) -> sort 후 리스트 반환
+
         try {
             model.addAttribute("userId", userId);
             model.addAttribute("userName", userService.findUser(userId).getUsername());

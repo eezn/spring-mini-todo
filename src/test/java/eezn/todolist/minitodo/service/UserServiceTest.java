@@ -96,7 +96,7 @@ public class UserServiceTest {
 
     @Test
     public void totalUserTest() {
-        assertThat(userService.findAll().size()).isEqualTo(userService.totalUser());
+        assertThat(userService.findAll().size()).isEqualTo(userService.countUser());
     }
 
     @Test

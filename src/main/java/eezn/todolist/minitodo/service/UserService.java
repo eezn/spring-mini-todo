@@ -41,7 +41,7 @@ public class UserService {
         return userRepository.findById(UserId).get();
     }
 
-    public int totalUser() {
+    public int countUser() {
         return userRepository.countUser();
     }
 

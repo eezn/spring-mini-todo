@@ -66,17 +66,6 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-    /** userId, categoryId */
-    public List<Todo> findByCategoryId(Integer userId, Integer categoryId) {
-        validateUser(userId);
-        validateCategory(categoryId);
-        return todoRepository.findByUserId(userId)
-                .stream()
-                .filter(todo -> todo.getIsDeleted().equals(false)
-                        && todo.getCategoryId().equals(categoryId))
-                .collect(Collectors.toList());
-    }
-
     /** userId, statusId */
     public List<Todo> findByStatusId(Integer userId, Integer statusId) {
         validateUser(userId);
@@ -88,15 +77,33 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-    private void validateContent(Todo todo) throws IllegalStateException {
-        if (todo.getContent().isEmpty()) {
-            throw new IllegalStateException("빈 문자열입니다.");
-        }
+    /** userId, categoryId */
+    public List<Todo> findByCategoryId(Integer userId, Integer categoryId) {
+        validateUser(userId);
+        validateCategory(categoryId);
+        return todoRepository.findByUserId(userId)
+                .stream()
+                .filter(todo -> todo.getIsDeleted().equals(false)
+                        && todo.getCategoryId().equals(categoryId))
+                .collect(Collectors.toList());
     }
 
     private void validateUser(Integer userId) throws IllegalStateException {
         if (userRepository.findById(userId).isEmpty()) {
             throw new IllegalStateException("존재하지 않는 회원입니다.");
+        }
+    }
+
+    private void validateTodo(Integer todoId) throws IllegalStateException {
+        Optional<Todo> todo = todoRepository.findById(todoId);
+        if (todo.isEmpty() || todo.get().getIsDeleted()) {
+            throw new IllegalStateException("존재하지 않는 항목입니다.");
+        }
+    }
+
+    private void validateContent(Todo todo) throws IllegalStateException {
+        if (todo.getContent().isEmpty()) {
+            throw new IllegalStateException("빈 문자열입니다.");
         }
     }
 
@@ -109,13 +116,6 @@ public class TodoService {
     private void validatePriority(Integer priorityId) throws IllegalStateException {
         if (priorityRepository.findById(priorityId).isEmpty()) {
             throw new IllegalStateException("존재하지 않는 우선순위 항목입니다.");
-        }
-    }
-
-    private void validateTodo(Integer todoId) throws IllegalStateException {
-        Optional<Todo> todo = todoRepository.findById(todoId);
-        if (todo.isEmpty() || todo.get().getIsDeleted()) {
-            throw new IllegalStateException("존재하지 않는 항목입니다.");
         }
     }
 }
