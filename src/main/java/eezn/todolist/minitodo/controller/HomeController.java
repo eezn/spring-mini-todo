@@ -17,26 +17,29 @@ public class HomeController {
     private final UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Model model) {
-        model.addAttribute("userList", userService.findAll());
-        model.addAttribute("userForm", new UserDto());
-        return "home";
-    }
+        public String home(Model model) {
+            model.addAttribute("userList", userService.findAll());
+            model.addAttribute("userForm", new UserDto());
+            return "home";
+        }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String join(@ModelAttribute("userForm") UserDto userForm) {
+        @RequestMapping(value = "/", method = RequestMethod.POST)
+        public String join(@ModelAttribute("userForm") UserDto userForm) {
 
-        User user = new User();
-        user.setUsername(userForm.getUsername());
-        user.setPassword(userForm.getPassword());
-        user.setEmail(userForm.getEmail());
+            User user = new User();
+            user.setUsername(userForm.getUsername());
+            user.setPassword(userForm.getPassword());
+            user.setEmail(userForm.getEmail());
 
-        Integer id = 0;
-        try { id = userService.join(user).getId(); }
-        catch (Exception e) { System.out.println(e.getMessage()); }
+            Integer id = 0;
+            try { id = userService.join(user).getId(); }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
 
-        String ret = "redirect:/";
-        if (id != 0) ret = "redirect:/user/" + id;
+            String ret = "redirect:/";
+            if (id != 0)
+                ret = "redirect:/user/" + id  + "/todolist";
         return ret;
     }
 }

@@ -45,7 +45,7 @@
         <div class="user-list">
             <tbody>
                 <li th:each="user : ${userList}">
-                    <a th:href="@{'/user/' + ${user.id}}" th:text="${user.username}"></a>
+                    <a th:href="@{/user/{id}/todolist(id=${user.id})}" th:text="${user.username}"></a>
                 </li>
             </tbody>
         </div>
