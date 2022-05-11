@@ -11,7 +11,7 @@ public interface UserRepository {
 
     void update(User user);
 
-    void updateDeleteFlag(User user);
+    void updateDeleteFlag(Integer id);
 
     Optional<User> findById(Integer id);
 

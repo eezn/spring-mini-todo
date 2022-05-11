@@ -43,9 +43,9 @@ public class JdbcTemplateUserRepository implements UserRepository {
     }
 
     @Override
-    public void updateDeleteFlag(User user) {
+    public void updateDeleteFlag(Integer id) {
         jdbcTemplate.update(
-                "update users set user_is_deleted = true where user_id = ?", user.getId());
+                "update users set user_is_deleted = true where user_id = ?", id);
     }
 
     @Override

@@ -72,7 +72,7 @@ public class JdbcTemplateUserUpdateTest {
     public void updateDeleteFlagTest() {
 
         userRepository.findById(2).ifPresent(user ->
-                userRepository.updateDeleteFlag(user));
+                userRepository.updateDeleteFlag(user.getId()));
 
         userRepository.findById(2).ifPresent(user ->
                 assertThat(user.getIsDeleted()).isEqualTo(true));

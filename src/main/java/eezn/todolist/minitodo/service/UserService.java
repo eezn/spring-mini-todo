@@ -32,7 +32,7 @@ public class UserService {
         if (userRepository.findById(user.getId()).isPresent()) {
             List<Todo> todoList = todoRepository.findByUserId(user.getId());
             todoList.forEach(todo -> todoRepository.updateDeleteFlag(todo.getId()));
-            userRepository.updateDeleteFlag(user);
+            userRepository.updateDeleteFlag(user.getId());
         }
     }
 
