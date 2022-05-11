@@ -2,12 +2,15 @@ package eezn.todolist.minitodo.controller;
 
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.controller.dto.TodoDto;
+import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import eezn.todolist.minitodo.service.TodoService;
 import eezn.todolist.minitodo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,16 +23,11 @@ public class TodoController {
     @RequestMapping(value = "/todolist", method = RequestMethod.GET)
     public String read(@PathVariable("id") int userId, Model model) {
 
-        // todo findByStatusId(Integer userId, Integer statusId)
-        //  -> TODO ? DONE -> 최종 두 개 리스트 -> Model -> View
-
-        // todo findByStatusId() -> TodoService에 구현
-        //  Comparator(기준1. categoryId, 기준2. priorityId) -> sort 후 리스트 반환
-
         try {
             model.addAttribute("userId", userId);
             model.addAttribute("userName", userService.findUser(userId).getUsername());
-            model.addAttribute("todoList", todoService.findByUserId(userId));
+            model.addAttribute("todoList", todoService.findByStatusId(userId, StatusEnum.TODO.getId()));
+            model.addAttribute("doneList", todoService.findByStatusId(userId, StatusEnum.DONE.getId()));
             model.addAttribute("todoForm", new TodoDto());
             return "todolist";
         } catch (IllegalStateException e) {

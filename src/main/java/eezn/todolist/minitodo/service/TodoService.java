@@ -1,5 +1,6 @@
 package eezn.todolist.minitodo.service;
 
+import eezn.todolist.minitodo.domain.utils.CategoryEnum;
 import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.repository.CategoryRepository;
@@ -74,6 +75,9 @@ public class TodoService {
                 .stream()
                 .filter(todo -> todo.getIsDeleted().equals(false)
                         && todo.getStatusId().equals(statusId))
+                .sorted((o1, o2) -> o1.getCategoryId() == o2.getCategoryId()
+                        ? Integer.compare(o1.getPriorityId(), o2.getPriorityId())
+                        : Integer.compare(o1.getCategoryId(), o2.getCategoryId()))
                 .collect(Collectors.toList());
     }
 
