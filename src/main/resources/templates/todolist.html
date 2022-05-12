@@ -1,48 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>MINI-TODO | TODOLIST</title>
-    <!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
-    <style>
-        div {
-            background-color: white;
-            border: 1px solid red;
-            padding: 5px;
-            margin: 5px;
-        }
-        .todo-list {
-            background-color: yellow;
-            border: 1px solid yellowgreen;
-            padding: 5px;
-            margin: 5px;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+    <title>Todo-List | Mini-Todo</title>
 </head>
-
 <body>
-<div class="container">
+
     <header class="header">
-        <h3 th:text="${userName}"></h3>
-        <a href="/">home</a>
+        <div class="header__header-column">
+            <span class="header__title" th:text="${userName}"></span>
+        </div>
+        <div class="header__header-column">
+            <a class="header__home" href="/">home</a>
+        </div>
     </header>
-    <main class="main">
-        <div class="todo-form">
-            <form action="todolist.html" th:action th:object="${todoForm}" method="post">
-                <div>
-                    <label>할 일</label>
+
+    <main>
+
+        <div>
+            <form class="todo-create" action="todolist.html" th:action="@{/user/{id}/todolist(id=${userId})}" th:object="${todoForm}" th:method="post">
+                <div class="input-item input-content">
                     <input type="text" id="todo-content" name="content" th:field="*{content}"
-                           placeholder="Please input Todo Content">
+                           placeholder="Input Todo Content">
                 </div>
-                <div>
-                    <label>카테고리</label>
+                <div class="input-item input-category">
                     <select id="todo-category" name="categoryId" th:field="*{categoryId}">
                         <option th:value=2 th:text="WORK"></option>
                         <option th:value=3 th:text="LIFE"></option>
                     </select>
                 </div>
-                <div>
-                    <label>우선순위</label>
+                <div class="input-item input-priority">
                     <select id="todo-priority" name="priorityId" th:field="*{priorityId}">
                         <option th:value=1 th:text="Important_Urgent"></option>
                         <option th:value=2 th:text="Important_NotUrgent"></option>
@@ -50,52 +38,102 @@
                         <option th:value=4 th:text="NotImportant_NotUrgent"></option>
                     </select>
                 </div>
-                <div class="button">
-                    <button type="submit">todo 저장</button>
+                <div>
+                    <button type="submit">추가</button>
                 </div>
             </form>
         </div>
-        <div class="todo-list"> <!-- 정렬, done todo -->
-            <div th:each="todo : ${todoList}">
-                <div th:text="${todo.content}">todo_content</div>
-                <div>
-                    <div th:if="${todo.categoryId} == 2">WORK</div>
-                    <div th:if="${todo.categoryId} == 3">LIFE</div>
-                </div>
-                <div>
-                    <div th:if="${todo.priorityId} == 1">Important Urgent</div>
-                    <div th:if="${todo.priorityId} == 2">Important NotUrgent</div>
-                    <div th:if="${todo.priorityId} == 3">NotImportant Urgent</div>
-                    <div th:if="${todo.priorityId} == 4">NotImportant NotUrgent</div>
-                </div>
-                <div>
-                    <div th:if="${todo.statusId} == 1">TODO</div>
-                    <div th:if="${todo.statusId} == 2">DONE</div>
-                </div>
-                <div> <!-- Button -->
-                    <div th:if="${todo.isDeleted} == false">가능 합니다.</div>
-                    <div th:unless="${todo.isDeleted == false}">불가능 합니다.</div>
-                </div>
-                <div>
-                    <form th:action="@{/user/{id}/toggle(id=${userId}, todo=${todo.getId()})}" th:method="post">
-                        <div class="button">
-                            <button type="submit">완료</button>
-                        </div>
-                    </form>
-                    <form th:action="@{/user/{id}/modify(id=${userId}, todo=${todo.getId()})}" th:method="post">
-                        <div class="button">
-                            <button type="submit">수정</button>
-                        </div>
-                    </form>
-                    <form th:action="@{/user/{id}/delete(id=${userId}, todo=${todo.getId()})}" th:method="post">
-                        <div class="button">
-                            <button type="submit">삭제</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+
+
+        <div>
+            <th:block th:if="${todoList.size()} == 0 and ${doneList.size()} == 0">
+                <span class="todo-list__title">할 일이 없니?</span>
+            </th:block>
         </div>
+
+        <div>
+            <th:block th:if="${todoList.size()} != 0">
+                <span class="todo-list__title">해야할 일</span>
+                <div class="todo-list"
+                     th:each="todo : ${todoList}"
+                     th:style="${todo.categoryId == 2 ? 'background-color: #58D68B' : 'background-color: #F7D370'}">
+                    <div class="todo-list__data">
+                        <div class="todo-item todo-item__priority">
+                            <span th:if="${todo.priorityId} == 1">A</span>
+                            <span th:if="${todo.priorityId} == 2">B</span>
+                            <span th:if="${todo.priorityId} == 3">C</span>
+                            <span th:if="${todo.priorityId} == 4">D</span>
+                        </div>
+                        <div class="todo-item todo-item__content">
+                            <span th:text="${todo.content}">todo_content</span>
+                        </div>
+                    </div>
+                    <div class="todo-list__action">
+                        <div class="todo-item">
+                            <form th:action="@{/user/{id}/toggle(id=${userId}, todo=${todo.getId()})}"
+                                  th:method="post">
+                                <button type="submit">완료</button>
+                            </form>
+                        </div>
+                        <div class="todo-item">
+                            <form th:action="@{/user/{id}/modify(id=${userId}, todo=${todo.getId()})}"
+                                  th:method="post">
+                                <button type="submit">수정</button>
+                            </form>
+                        </div>
+                        <div class="todo-item">
+                            <form th:action="@{/user/{id}/delete(id=${userId}, todo=${todo.getId()})}"
+                                  th:method="post">
+                                <button type="submit">삭제</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+
+
+        <div>
+            <th:block th:if="${doneList.size()} != 0">
+                <span class="todo-list__title">완료된 일</span>
+                <div class="todo-list"
+                     th:each="todo : ${doneList}"
+                     th:style="${todo.categoryId == 2 ? 'background-color: rgba(129, 140, 147, 0.7)' : 'background-color: rgba(172, 180, 184, 0.7)'}">
+                    <div class="todo-list__data">
+                        <div class="todo-item todo-item__priority">
+                            <span th:if="${todo.priorityId} == 1">A</span>
+                            <span th:if="${todo.priorityId} == 2">B</span>
+                            <span th:if="${todo.priorityId} == 3">C</span>
+                            <span th:if="${todo.priorityId} == 4">D</span>
+                        </div>
+                        <div class="todo-item todo-item__content">
+                            <del><span th:text="${todo.content}">todo_content</span></del>
+                        </div>
+                    </div>
+                    <div class="todo-list__action">
+                        <div class="todo-item">
+                            <form th:action="@{/user/{id}/toggle(id=${userId}, todo=${todo.getId()})}"
+                                  th:method="post">
+                                <button type="submit">복구</button>
+                            </form>
+                        </div>
+                        <div class="todo-item">
+                            <form th:action="@{/user/{id}/modify(id=${userId}, todo=${todo.getId()})}"
+                                  th:method="post">
+                                <button type="submit">수정</button>
+                            </form>
+                        </div>
+                        <div class="todo-item">
+                            <form th:action="@{/user/{id}/delete(id=${userId}, todo=${todo.getId()})}"
+                                  th:method="post">
+                                <button type="submit">삭제</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+
     </main>
-</div> <!--container-->
 </body>
 </html>

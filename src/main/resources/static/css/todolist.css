@@ -1,0 +1,86 @@
+/* create */
+.todo-create {
+    /*background-color: rgba(255, 0, 0, 0.4);*/
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    margin: 2px;
+}
+
+.input-item {
+    /*background-color: inherit;*/
+    margin: 5px;
+}
+
+#todo-content {
+    width: 80%;
+    font-size: 15px;
+    padding: 5px;
+}
+
+#todo-category {
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+}
+
+#todo-priority {
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+}
+
+.input-content {
+    width: 60%;
+}
+
+.input-width {
+    width: 80%;
+}
+
+/* todolist */
+
+.todo-list__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.todo-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.todo-list__data {
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+}
+
+.todo-list__action {
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.todo-item {
+    background-color: transparent;
+    margin: 5px;
+}
+
+.todo-item__content {
+    width: 90%;
+}
+
+.todo-item__priority {
+
+}

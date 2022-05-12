@@ -96,7 +96,3 @@ INSERT INTO `todo_priority` (priority_level) VALUES ('D');
 
 INSERT INTO `todo_status` (status_name) VALUES ('todo');
 INSERT INTO `todo_status` (status_name) VALUES ('done');
-
--- DUMMY USER
-INSERT INTO `users` (user_name, user_password, user_email)
-    VALUES ('JIN-LEE', '123', 'JIN-LEE@student.42seoul.kr');

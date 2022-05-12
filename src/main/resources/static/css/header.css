@@ -1,0 +1,28 @@
+/* header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header__title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 40px;
+}
+
+.header__home {
+    font-size: 24px;
+    font-weight: 600;
+    margin-right: 40px;
+}
+
+.header__header-column {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    align-items: center;
+}
