@@ -2,6 +2,9 @@
 INSERT INTO `users` (user_name, user_password, user_email)
     VALUES ('JIN-LEE', '123', 'JIN-LEE@student.42seoul.kr');
 
+INSERT INTO `users` (user_name, user_password, user_email)
+    VALUES ('MINKANG', '123', 'MINKANG@student.42seoul.kr');
+
 -- DUMMY TODO
 INSERT INTO `todo_list` (todo_id, user_id, `created_time`, `modified_time`, todo_content, todo_is_deleted, category_id, priority_id, status_id)
     VALUES (1, 1, '2022-05-13 00:00:00.000000', '2022-05-13 00:00:00.000000', 'DUMMY_DATA_01', false, 2, 1, 1);
