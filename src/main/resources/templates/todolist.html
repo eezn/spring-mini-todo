@@ -59,10 +59,10 @@
                      th:style="${todo.categoryId == 2 ? 'background-color: #58D68B' : 'background-color: #F7D370'}">
                     <div class="todo-list__data">
                         <div class="todo-item todo-item__priority">
-                            <span th:if="${todo.priorityId} == 1">A</span>
-                            <span th:if="${todo.priorityId} == 2">B</span>
-                            <span th:if="${todo.priorityId} == 3">C</span>
-                            <span th:if="${todo.priorityId} == 4">D</span>
+                            <span th:if="${todo.priorityId} == 1">🌕</span>
+                            <span th:if="${todo.priorityId} == 2">🌖</span>
+                            <span th:if="${todo.priorityId} == 3">🌗</span>
+                            <span th:if="${todo.priorityId} == 4">🌘</span>
                         </div>
                         <div class="todo-item todo-item__content">
                             <span th:text="${todo.content}">todo_content</span>
@@ -101,10 +101,10 @@
                      th:style="${todo.categoryId == 2 ? 'background-color: rgba(129, 140, 147, 0.7)' : 'background-color: rgba(172, 180, 184, 0.7)'}">
                     <div class="todo-list__data">
                         <div class="todo-item todo-item__priority">
-                            <span th:if="${todo.priorityId} == 1">A</span>
-                            <span th:if="${todo.priorityId} == 2">B</span>
-                            <span th:if="${todo.priorityId} == 3">C</span>
-                            <span th:if="${todo.priorityId} == 4">D</span>
+                            <span th:if="${todo.priorityId} == 1">🌕</span>
+                            <span th:if="${todo.priorityId} == 2">🌖</span>
+                            <span th:if="${todo.priorityId} == 3">🌗</span>
+                            <span th:if="${todo.priorityId} == 4">🌘</span>
                         </div>
                         <div class="todo-item todo-item__content">
                             <del><span th:text="${todo.content}">todo_content</span></del>
