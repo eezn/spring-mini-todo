@@ -1,0 +1,45 @@
+/* home */
+.home-container {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+}
+
+.home-form {
+    width: 250px;
+}
+
+.home-form__element {
+    display: flex;
+    justify-content: right;
+    margin: 10px;
+}
+
+.home-form__summit {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+input {
+    margin-left: 15px;
+}
+
+.home-users {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    margin-top: 30px;
+
+}
+
+.user-list {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    font-size: 20px;
+}
+
+.user-list .user-list__user {
+    margin-top: 5px;
+}

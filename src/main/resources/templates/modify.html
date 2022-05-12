@@ -1,56 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>MINI-TODO | MODIFY</title>
-    <!--    <link rel="stylesheet" type="text/css" href="css/style.css">-->
-    <style>
-        div {
-            background-color: white;
-            border: 1px solid red;
-            padding: 5px;
-            margin: 5px;
-        }
-        .todo-list {
-            background-color: yellow;
-            border: 1px solid yellowgreen;
-            padding: 5px;
-            margin: 5px;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+    <title>Modify | Mini-Todo</title>
 </head>
 <body>
 
-<h3 th:text="${target.getContent()}"></h3>
+    <header class="header">
+        <div class="header__header-column">
+            <span class="header__title" th:text="${userName}"></span>
+        </div>
+        <div class="header__header-column">
+            <a class="header__home" href="/">home</a>
+        </div>
+    </header>
 
+    <main>
 
-<div class="todo-form">
-    <form th:action="@{/user/{id}/complete(id=${userId}, todo=${target.getId()})}" th:object="${target}" th:method="post">
         <div>
-            <label>할 일</label>
-            <input type="text" id="modify-content" name="content" th:field="*{content}"
-                   placeholder="Please input Todo Content">
+            <form class="todo-create" th:action="@{/user/{id}/complete(id=${userId}, todo=${target.getId()})}" th:object="${target}" th:method="post">
+                <div class="input-content">
+                    <input class="input-width" type="text" id="todo-content" name="content" th:field="*{content}"
+                           placeholder="Please input Todo Content">
+                </div>
+                <div class="input-category">
+                    <select id="todo-category" name="categoryId" th:field="*{categoryId}">
+                        <option th:value=2 th:text="WORK"></option>
+                        <option th:value=3 th:text="LIFE"></option>
+                    </select>
+                </div>
+                <div class="input-priority">
+                    <select id="todo-priority" name="priorityId" th:field="*{priorityId}">
+                        <option th:value=1 th:text="Important_Urgent"></option>
+                        <option th:value=2 th:text="Important_NotUrgent"></option>
+                        <option th:value=3 th:text="NotImportant_Urgent"></option>
+                        <option th:value=4 th:text="NotImportant_NotUrgent"></option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit">수정</button>
+                </div>
+            </form>
         </div>
-        <div>
-            <label>카테고리</label>
-            <select id="modify-category" name="categoryId" th:field="*{categoryId}">
-                <option th:value=2 th:text="WORK"></option>
-                <option th:value=3 th:text="LIFE"></option>
-            </select>
-        </div>
-        <div>
-            <label>우선순위</label>
-            <select id="modify-priority" name="priorityId" th:field="*{priorityId}">
-                <option th:value=1 th:text="Important_Urgent"></option>
-                <option th:value=2 th:text="Important_NotUrgent"></option>
-                <option th:value=3 th:text="NotImportant_Urgent"></option>
-                <option th:value=4 th:text="NotImportant_NotUrgent"></option>
-            </select>
-        </div>
-        <div class="button">
-            <button type="submit">수정 완료</button>
-        </div>
-    </form>
-</div>
+
+    </main>
 </body>
 </html>

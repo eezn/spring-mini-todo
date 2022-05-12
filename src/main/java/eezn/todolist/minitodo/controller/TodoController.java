@@ -1,7 +1,7 @@
 package eezn.todolist.minitodo.controller;
 
-import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.controller.dto.TodoDto;
+import eezn.todolist.minitodo.domain.Todo;
 import eezn.todolist.minitodo.domain.utils.StatusEnum;
 import eezn.todolist.minitodo.service.TodoService;
 import eezn.todolist.minitodo.service.UserService;
@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
