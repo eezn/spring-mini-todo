@@ -56,7 +56,7 @@
                 <span class="todo-list__title">해야할 일</span>
                 <div class="todo-list"
                      th:each="todo : ${todoList}"
-                     th:style="${todo.categoryId == 2 ? 'background-color: #58D68B;' : 'background-color: #F7D370'}">
+                     th:style="${todo.categoryId == 2 ? 'background-color: #58D68B' : 'background-color: #F7D370'}">
                     <div class="todo-list__data">
                         <div class="todo-item todo-item__priority">
                             <span th:if="${todo.priorityId} == 1">A</span>
@@ -98,7 +98,7 @@
                 <span class="todo-list__title">완료된 일</span>
                 <div class="todo-list"
                      th:each="todo : ${doneList}"
-                     th:style="${todo.categoryId == 2 ? 'background-color: #818C93;' : 'background-color: #ACB4B8'}">
+                     th:style="${todo.categoryId == 2 ? 'background-color: rgba(129, 140, 147, 0.7)' : 'background-color: rgba(172, 180, 184, 0.7)'}">
                     <div class="todo-list__data">
                         <div class="todo-item todo-item__priority">
                             <span th:if="${todo.priorityId} == 1">A</span>

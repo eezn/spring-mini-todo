@@ -6,19 +6,19 @@
     margin-bottom: 30px;
 }
 
-.header .header__title {
+.header__title {
     font-size: 24px;
     font-weight: 600;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
-.header .header__home {
+.header__home {
     font-size: 24px;
     font-weight: 600;
-    margin-right: 20px;
+    margin-right: 40px;
 }
 
-.header .header__header-column {
+.header__header-column {
     display: flex;
     align-items: center;
 }
