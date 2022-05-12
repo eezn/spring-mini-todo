@@ -41,9 +41,12 @@
 
 /* todolist */
 
-.section {
+.todo-list__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .todo-list {
@@ -55,7 +58,7 @@
 }
 
 .todo-list__data {
-    background-color: inherit;
+    background-color: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -63,14 +66,14 @@
 }
 
 .todo-list__action {
-    background-color: inherit;
+    background-color: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .todo-item {
-    background-color: inherit;
+    background-color: transparent;
     margin: 5px;
 }
 

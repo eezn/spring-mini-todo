@@ -46,8 +46,14 @@
 
 
         <div>
-            <th:block class="section" th:if="${todoList.size()} != 0">
-                <h3>할 일</h3>
+            <th:block th:if="${todoList.size()} == 0 and ${doneList.size()} == 0">
+                <span class="todo-list__title">할 일이 없니?</span>
+            </th:block>
+        </div>
+
+        <div>
+            <th:block th:if="${todoList.size()} != 0">
+                <span class="todo-list__title">해야할 일</span>
                 <div class="todo-list"
                      th:each="todo : ${todoList}"
                      th:style="${todo.categoryId == 2 ? 'background-color: #58D68B;' : 'background-color: #F7D370'}">
@@ -89,7 +95,7 @@
 
         <div>
             <th:block th:if="${doneList.size()} != 0">
-                <h3>완료 됨</h3>
+                <span class="todo-list__title">완료된 일</span>
                 <div class="todo-list"
                      th:each="todo : ${doneList}"
                      th:style="${todo.categoryId == 2 ? 'background-color: #818C93;' : 'background-color: #ACB4B8'}">
@@ -101,7 +107,7 @@
                             <span th:if="${todo.priorityId} == 4">D</span>
                         </div>
                         <div class="todo-item todo-item__content">
-                            <span th:text="${todo.content}">todo_content</span>
+                            <del><span th:text="${todo.content}">todo_content</span></del>
                         </div>
                     </div>
                     <div class="todo-list__action">

@@ -40,6 +40,6 @@ input {
     font-size: 20px;
 }
 
-.user-list .user-list__user {
-    margin-top: 5px;
+.user-list__user {
+    margin-top: 10px;
 }
