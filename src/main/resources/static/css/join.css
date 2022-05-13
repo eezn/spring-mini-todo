@@ -1,0 +1,49 @@
+/* user join */
+
+.join-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.join-form {
+    width: 250px;
+}
+
+.join-form__element {
+    display: flex;
+    justify-content: right;
+    margin: 10px;
+}
+
+.join-form__element__input {
+    margin-left: 15px;
+}
+
+.join-form__element__summit {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+
+/* user list */
+
+.user-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.user-list {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    font-size: 20px;
+}
+
+.user-list__user {
+    margin-top: 10px;
+}
