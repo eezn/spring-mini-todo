@@ -6,7 +6,6 @@
     <title>Todo-List | Mini-Todo</title>
 </head>
 <body>
-
     <header class="header">
         <div class="header__header-column">
             <span class="header__title" th:text="${userName}"></span>
@@ -15,22 +14,21 @@
             <a class="header__home" href="/">home</a>
         </div>
     </header>
-
     <main>
-
-        <div>
-            <form class="todo-create" action="todolist.html" th:action="@{/user/{id}/todolist(id=${userId})}" th:object="${todoForm}" th:method="post">
-                <div class="input-item input-content">
-                    <input type="text" id="todo-content" name="content" th:field="*{content}"
+        <div id="todo-create">
+            <!-- modify.html form 구성 같음 -->
+            <form class="todo-form" action="todolist.html" th:action="@{/user/{id}/todolist(id=${userId})}" th:object="${todoForm}" th:method="post">
+                <div class="todo-form__element todo-form__element__content">
+                    <input id="todo-content" type="text" name="content" th:field="*{content}"
                            placeholder="Input Todo Content">
                 </div>
-                <div class="input-item input-category">
+                <div class="todo-form__element todo-form__element__category">
                     <select id="todo-category" name="categoryId" th:field="*{categoryId}">
                         <option th:value=2 th:text="WORK"></option>
                         <option th:value=3 th:text="LIFE"></option>
                     </select>
                 </div>
-                <div class="input-item input-priority">
+                <div class="todo-form__element todo-form__element__priority">
                     <select id="todo-priority" name="priorityId" th:field="*{priorityId}">
                         <option th:value=1 th:text="Important_Urgent"></option>
                         <option th:value=2 th:text="Important_NotUrgent"></option>
@@ -42,46 +40,43 @@
                     <button type="submit">추가</button>
                 </div>
             </form>
-        </div>
-
-
-        <div>
+        </div> <!-- End todo-create -->
+        <div id="todo-nothing">
             <th:block th:if="${todoList.size()} == 0 and ${doneList.size()} == 0">
                 <span class="todo-list__title">할 일이 없니?</span>
             </th:block>
         </div>
-
-        <div>
+        <div id="todo-list">
             <th:block th:if="${todoList.size()} != 0">
                 <span class="todo-list__title">해야할 일</span>
                 <div class="todo-list"
                      th:each="todo : ${todoList}"
                      th:style="${todo.categoryId == 2 ? 'background-color: #58D68B' : 'background-color: #F7D370'}">
                     <div class="todo-list__data">
-                        <div class="todo-item todo-item__priority">
+                        <div class="todo-list__element todo-list__data__priority">
                             <span th:if="${todo.priorityId} == 1">🌕</span>
                             <span th:if="${todo.priorityId} == 2">🌖</span>
                             <span th:if="${todo.priorityId} == 3">🌗</span>
                             <span th:if="${todo.priorityId} == 4">🌘</span>
                         </div>
-                        <div class="todo-item todo-item__content">
+                        <div class="todo-list__element todo-list__data__content">
                             <span th:text="${todo.content}">todo_content</span>
                         </div>
                     </div>
                     <div class="todo-list__action">
-                        <div class="todo-item">
+                        <div class="todo-list__element">
                             <form th:action="@{/user/{id}/toggle(id=${userId}, todo=${todo.getId()})}"
                                   th:method="post">
                                 <button type="submit">완료</button>
                             </form>
                         </div>
-                        <div class="todo-item">
+                        <div class="todo-list__element">
                             <form th:action="@{/user/{id}/modify(id=${userId}, todo=${todo.getId()})}"
                                   th:method="post">
                                 <button type="submit">수정</button>
                             </form>
                         </div>
-                        <div class="todo-item">
+                        <div class="todo-list__element">
                             <form th:action="@{/user/{id}/delete(id=${userId}, todo=${todo.getId()})}"
                                   th:method="post">
                                 <button type="submit">삭제</button>
@@ -90,40 +85,38 @@
                     </div>
                 </div>
             </th:block>
-        </div>
-
-
-        <div>
+        </div> <!-- End todoList -->
+        <div id="done-list">
             <th:block th:if="${doneList.size()} != 0">
                 <span class="todo-list__title">완료된 일</span>
                 <div class="todo-list"
                      th:each="todo : ${doneList}"
                      th:style="${todo.categoryId == 2 ? 'background-color: rgba(129, 140, 147, 0.7)' : 'background-color: rgba(172, 180, 184, 0.7)'}">
                     <div class="todo-list__data">
-                        <div class="todo-item todo-item__priority">
+                        <div class="todo-list__element todo-list__data__priority">
                             <span th:if="${todo.priorityId} == 1">🌕</span>
                             <span th:if="${todo.priorityId} == 2">🌖</span>
                             <span th:if="${todo.priorityId} == 3">🌗</span>
                             <span th:if="${todo.priorityId} == 4">🌘</span>
                         </div>
-                        <div class="todo-item todo-item__content">
+                        <div class="todo-list__element todo-list__data__content">
                             <del><span th:text="${todo.content}">todo_content</span></del>
                         </div>
                     </div>
                     <div class="todo-list__action">
-                        <div class="todo-item">
+                        <div class="todo-list__element">
                             <form th:action="@{/user/{id}/toggle(id=${userId}, todo=${todo.getId()})}"
                                   th:method="post">
                                 <button type="submit">복구</button>
                             </form>
                         </div>
-                        <div class="todo-item">
+                        <div class="todo-list__element">
                             <form th:action="@{/user/{id}/modify(id=${userId}, todo=${todo.getId()})}"
                                   th:method="post">
                                 <button type="submit">수정</button>
                             </form>
                         </div>
-                        <div class="todo-item">
+                        <div class="todo-list__element">
                             <form th:action="@{/user/{id}/delete(id=${userId}, todo=${todo.getId()})}"
                                   th:method="post">
                                 <button type="submit">삭제</button>
@@ -132,8 +125,7 @@
                     </div>
                 </div>
             </th:block>
-        </div>
-
+        </div> <!-- End doneList -->
     </main>
 </body>
 </html>

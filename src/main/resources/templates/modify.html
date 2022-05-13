@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
-    <title>Modify | Mini-Todo</title>
+    <title>Todo-Modify | Mini-Todo</title>
 </head>
 <body>
-
     <header class="header">
         <div class="header__header-column">
             <span class="header__title" th:text="${userName}"></span>
@@ -15,22 +14,21 @@
             <a class="header__home" href="/">home</a>
         </div>
     </header>
-
     <main>
-
-        <div>
-            <form class="todo-create" th:action="@{/user/{id}/complete(id=${userId}, todo=${target.getId()})}" th:object="${target}" th:method="post">
-                <div class="input-content">
-                    <input class="input-width" type="text" id="todo-content" name="content" th:field="*{content}"
-                           placeholder="Please input Todo Content">
+        <div id="todo-modify">
+            <!-- todolist.html form 구성 같음 -->
+            <form class="todo-form" th:action="@{/user/{id}/complete(id=${userId}, todo=${target.getId()})}" th:object="${target}" th:method="post">
+                <div class="todo-form__element todo-form__element__content">
+                    <input id="todo-content" type="text" name="content" th:field="*{content}"
+                           placeholder="Input Todo Content">
                 </div>
-                <div class="input-category">
+                <div class="todo-form__element todo-form__element__category">
                     <select id="todo-category" name="categoryId" th:field="*{categoryId}">
                         <option th:value=2 th:text="WORK"></option>
                         <option th:value=3 th:text="LIFE"></option>
                     </select>
                 </div>
-                <div class="input-priority">
+                <div class="todo-form__element todo-form__element__priority">
                     <select id="todo-priority" name="priorityId" th:field="*{priorityId}">
                         <option th:value=1 th:text="Important_Urgent"></option>
                         <option th:value=2 th:text="Important_NotUrgent"></option>
@@ -42,7 +40,7 @@
                     <button type="submit">수정</button>
                 </div>
             </form>
-        </div>
+        </div> <!-- End todo-modify -->
 
     </main>
 </body>

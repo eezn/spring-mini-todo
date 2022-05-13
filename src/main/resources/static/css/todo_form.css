@@ -1,0 +1,38 @@
+/* todo create, modify form */
+
+.todo-form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.todo-form__element {
+    margin: 5px;
+}
+
+#todo-content {
+    width: 80%;
+    font-size: 15px;
+    padding: 5px;
+}
+
+#todo-category,
+#todo-priority {
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+}
+
+.todo-form__element__content {
+    width: 70%;
+}
+
+.todo-form__element__category {
+
+}
+
+.todo-form__element__priority {
+
+}

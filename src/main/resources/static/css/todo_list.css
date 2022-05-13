@@ -1,0 +1,45 @@
+/* todo-list form */
+
+.todo-list__title {
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.todo-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.todo-list__data {
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+}
+
+.todo-list__action {
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.todo-list__element {
+    background-color: transparent;
+    margin: 5px;
+}
+
+.todo-list__data__content {
+    width: 90%;
+}
+
+.todo-list__data__priority {
+
+}
