@@ -36,3 +36,10 @@
 .todo-form__element__priority {
 
 }
+
+/* todo modify option */
+
+.todo-form__modify-option {
+    color: #fd264b;
+    font-weight: 600;
+}
