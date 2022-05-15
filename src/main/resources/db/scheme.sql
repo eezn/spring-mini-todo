@@ -1,12 +1,13 @@
 
-
 -- CREATE TABLE
 CREATE TABLE `users` (
 	`user_id`           INT             NOT NULL    AUTO_INCREMENT,
 	`user_name`         VARCHAR(255)    NULL,
 	`user_password`     VARCHAR(255)    NULL,
 	`user_email`        VARCHAR(255)    NULL,
-	`user_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE
+	`user_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE,
+
+	CONSTRAINT `PK_USERS` PRIMARY KEY (`user_id`)
 );
 
 CREATE TABLE `todo_list` (
@@ -18,49 +19,34 @@ CREATE TABLE `todo_list` (
 	`todo_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE,
 	`category_id`       INT             NOT NULL    DEFAULT 1,
 	`priority_id`       INT             NOT NULL    DEFAULT 4,
-	`status_id`         INT             NOT NULL    DEFAULT 1
+	`status_id`         INT             NOT NULL    DEFAULT 1,
+
+	CONSTRAINT `PK_TODO_LIST` PRIMARY KEY (`todo_id`, `user_id`)
 );
 
 CREATE TABLE `todo_category` (
 	`category_id`           INT             NOT NULL    AUTO_INCREMENT,
 	`category_name`         VARCHAR(255)    NULL,
-	`category_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE
+	`category_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE,
+
+	CONSTRAINT `PK_TODO_CATEGORY` PRIMARY KEY (`category_id`)
 );
 
 CREATE TABLE `todo_priority` (
 	`priority_id`           INT             NOT NULL    AUTO_INCREMENT,
 	`priority_level`        VARCHAR(255)    NULL,
-	`priority_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE
+	`priority_is_deleted`   BOOLEAN         NULL    DEFAULT FALSE,
+
+	CONSTRAINT `PK_TODO_PRIORITY` PRIMARY KEY (`priority_id`)
 );
 
 CREATE TABLE `todo_status` (
 	`status_id`             INT             NOT NULL    AUTO_INCREMENT,
 	`status_name`           VARCHAR(255)    NULL,
-	`status_is_deleted`     BOOLEAN         NULL    DEFAULT FALSE
+	`status_is_deleted`     BOOLEAN         NULL    DEFAULT FALSE,
+
+	CONSTRAINT `PK_TODO_STATUS` PRIMARY KEY (`status_id`)
 );
-
-
--- PRIMARY KEY
-ALTER TABLE `users`
-    ADD CONSTRAINT `PK_USERS`
-    PRIMARY KEY (`user_id`);
-
-ALTER TABLE `todo_list`
-    ADD CONSTRAINT `PK_TODO_LIST`
-    PRIMARY KEY (`todo_id`, `user_id`);
-
-ALTER TABLE `todo_category`
-    ADD CONSTRAINT `PK_TODO_CATEGORY`
-    PRIMARY KEY (`category_id`);
-
-ALTER TABLE `todo_priority`
-    ADD CONSTRAINT `PK_TODO_PRIORITY`
-    PRIMARY KEY (`priority_id`);
-
-ALTER TABLE `todo_status`
-    ADD CONSTRAINT `PK_TODO_STATUS`
-    PRIMARY KEY (`status_id`);
-
 
 -- FOREIGN KEY
 ALTER TABLE `todo_list`
