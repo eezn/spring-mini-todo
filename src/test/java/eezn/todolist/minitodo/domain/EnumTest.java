@@ -1,8 +1,8 @@
 package eezn.todolist.minitodo.domain;
 
-import eezn.todolist.minitodo.domain.utils.CategoryEnum;
-import eezn.todolist.minitodo.domain.utils.PriorityEnum;
-import eezn.todolist.minitodo.domain.utils.StatusEnum;
+import eezn.todolist.minitodo.common.enums.CategoryEnum;
+import eezn.todolist.minitodo.common.enums.PriorityEnum;
+import eezn.todolist.minitodo.common.enums.StatusEnum;
 import org.junit.jupiter.api.Test;
 
 public class EnumTest {
@@ -14,9 +14,9 @@ public class EnumTest {
         CategoryEnum categoryWork = CategoryEnum.WORK;
         CategoryEnum categoryLife = CategoryEnum.LIFE;
 
-        System.out.println(categoryDefault.getId());
-        System.out.println(categoryWork.getId());
-        System.out.println(categoryLife.getId());
+        System.out.println(categoryDefault.getPriority());
+        System.out.println(categoryWork.getPriority());
+        System.out.println(categoryLife.getPriority());
     }
 
     @Test

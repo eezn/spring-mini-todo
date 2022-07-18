@@ -19,4 +19,6 @@ public class Category {
 
     private String category;
     private Boolean isDeleted;
+
+    // userid, color
 }

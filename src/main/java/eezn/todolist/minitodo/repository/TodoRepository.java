@@ -1,6 +1,6 @@
 package eezn.todolist.minitodo.repository;
 
-import eezn.todolist.minitodo.domain.utils.StatusEnum;
+import eezn.todolist.minitodo.common.enums.StatusEnum;
 import eezn.todolist.minitodo.domain.Todo;
 
 import java.util.List;

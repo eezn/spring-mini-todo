@@ -2,7 +2,7 @@ package eezn.todolist.minitodo.controller;
 
 import eezn.todolist.minitodo.controller.dto.TodoDto;
 import eezn.todolist.minitodo.domain.Todo;
-import eezn.todolist.minitodo.domain.utils.StatusEnum;
+import eezn.todolist.minitodo.common.enums.StatusEnum;
 import eezn.todolist.minitodo.service.TodoService;
 import eezn.todolist.minitodo.service.UserService;
 import lombok.RequiredArgsConstructor;
