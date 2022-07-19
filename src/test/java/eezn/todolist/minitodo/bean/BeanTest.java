@@ -1,27 +1,5 @@
 package eezn.todolist.minitodo.bean;
 
-import eezn.todolist.minitodo.repository.CategoryRepository;
-import eezn.todolist.minitodo.repository.PriorityRepository;
-import eezn.todolist.minitodo.repository.TodoRepository;
-import eezn.todolist.minitodo.repository.UserRepository;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateCategoryRepository;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplatePriorityRepository;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateTodoRepository;
-import eezn.todolist.minitodo.repository.jdbctemplate.JdbcTemplateUserRepository;
-import eezn.todolist.minitodo.service.TodoService;
-import eezn.todolist.minitodo.service.UserService;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-import javax.sql.DataSource;
-
 public class BeanTest {
 //
 //    AnnotationConfigApplicationContext ac
