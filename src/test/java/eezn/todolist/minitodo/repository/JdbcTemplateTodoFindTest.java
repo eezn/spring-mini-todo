@@ -1,20 +1,5 @@
 package eezn.todolist.minitodo.repository;
 
-import eezn.todolist.minitodo.AppConfig;
-import eezn.todolist.minitodo.domain.*;
-import eezn.todolist.minitodo.domain.utils.CategoryEnum;
-import eezn.todolist.minitodo.domain.utils.PriorityEnum;
-import eezn.todolist.minitodo.domain.utils.StatusEnum;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JdbcTemplateTodoFindTest {
