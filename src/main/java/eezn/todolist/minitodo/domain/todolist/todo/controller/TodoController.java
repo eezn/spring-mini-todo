@@ -28,8 +28,8 @@ public class TodoController {
             model.addAttribute("doneList", todoService.findByStatusId(userId, StatusEnum.DONE.getId()));
             model.addAttribute("todoForm", new TodoDto());
             return "todolist";
-        } catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+//            System.out.println(e.getMessage());
             return "redirect:/";
         }
     }
@@ -39,8 +39,8 @@ public class TodoController {
                          @ModelAttribute("todoForm") TodoDto todoForm) {
 
         try { userService.findByUserId(userId); }
-        catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+        catch (Exception e) {
+//            System.out.println(e.getMessage());
             return "redirect:/";
         }
 
@@ -51,8 +51,8 @@ public class TodoController {
             todo.setCategoryId(todoForm.getCategoryId());
             todo.setPriorityId(todoForm.getPriorityId());
             todoService.create(todo);
-        } catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+//            System.out.println(e.getMessage());
         }
         return "redirect:/user/" + userId + "/todolist";
     }
@@ -61,8 +61,8 @@ public class TodoController {
     public String toggle(@PathVariable("id") int userId,
                         @RequestParam("todo") int todoId) {
         try { todoService.toggleStatus(todoId); }
-        catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+        catch (Exception e) {
+//            System.out.println(e.getMessage());
         }
         return "redirect:/user/" + userId + "/todolist";
     }
@@ -81,10 +81,10 @@ public class TodoController {
         try {
             model.addAttribute("userId", userId);
             model.addAttribute("userName", userService.findByUserId(userId).getUsername());
-            model.addAttribute("target", todoService.findById(todoId));
+            model.addAttribute("target", todoService.findByTodoId(todoId));
             return "modify";
-        } catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+//            System.out.println(e.getMessage());
             return "redirect:/user/" + userId + "/todolist";
         }
     }
@@ -95,13 +95,13 @@ public class TodoController {
                            @ModelAttribute("target") TodoDto todoForm) {
 
         try {
-            Todo todo = todoService.findById(todoId);
+            Todo todo = todoService.findByTodoId(todoId);
             todo.setContent(todoForm.getContent());
             todo.setCategoryId(todoForm.getCategoryId());
             todo.setPriorityId(todoForm.getPriorityId());
             todoService.update(todo);
-        } catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+//            System.out.println(e.getMessage());
         }
         return "redirect:/user/" + userId + "/todolist";
     }

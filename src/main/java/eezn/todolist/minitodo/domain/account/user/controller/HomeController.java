@@ -34,7 +34,7 @@ public class HomeController {
             int id = 0;
             try { id = userService.join(user).getId(); }
             catch (Exception e) {
-                System.out.println(e.getMessage());
+//                System.out.println(e.getMessage());
             }
 
             String ret = "redirect:/";

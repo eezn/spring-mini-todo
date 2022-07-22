@@ -20,20 +20,23 @@ public class UserService {
     private final TodoRepository todoRepository;
 
     public User join(User user) throws IllegalArgumentException {
-        validateIsDuplicateUser(user, "join");
-        validateIsDuplicateEmail(user, "join");
+        String service = getMethodName();
+        validateIsDuplicateUser(user, service);
+        validateIsDuplicateEmail(user, service);
         return userRepository.insert(user);
     }
 
     public boolean update(User user) throws IllegalArgumentException {
         int userId = user.getId();
-        validateIsExistUser(userId, "update");
+        String service = getMethodName();
+        validateIsExistUser(userId, service);
         userRepository.update(user);
         return true;
     }
 
     public User findByUserId(int userId) throws IllegalArgumentException {
-        validateIsExistUser(userId, "findByUserId");
+        String service = getMethodName();
+        validateIsExistUser(userId, service);
         return userRepository.findById(userId).get();
     }
 
@@ -47,7 +50,8 @@ public class UserService {
 
     public void deactivate(User user) throws IllegalArgumentException {
         int userId = user.getId();
-        if (validateIsExistUser(userId, "deactivate")) {
+        String service = getMethodName();
+        if (validateIsExistUser(userId, service)) {
             List<Todo> todoList = todoRepository.findByUserId(userId);
 
             // todo: 쿼리 개선
@@ -56,6 +60,13 @@ public class UserService {
         }
     }
 
+    /**
+     *
+     * @param userId
+     * @param service
+     * @return true if user(userId) is exist on repository, otherwise false
+     * @throws IllegalArgumentException
+     */
     private boolean validateIsExistUser(int userId, String service) throws IllegalArgumentException {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty() || user.get().getIsDeleted()) {
@@ -69,6 +80,7 @@ public class UserService {
         if (username.length() == 0) {
             logMessage(service, "아이디를 입력해주세요.", "");
         }
+        // todo: 대소문자 설정 DB쪽에서 변경하기
         userRepository.findByName(username.toLowerCase()).ifPresent(m ->
                 logMessage(service, "이미 사용중인 아이디입니다.", username));
         userRepository.findByName(username.toUpperCase()).ifPresent(m ->
@@ -80,6 +92,7 @@ public class UserService {
         if (email.length() == 0) {
             logMessage(service, "이메일을 입력해주세요.", "");
         }
+        // todo: 대소문자 설정 DB쪽에서 변경하기
         userRepository.findByEmail(email.toLowerCase()).ifPresent(m ->
                 logMessage(service, "이미 사용중인 이메일입니다.", email));
         userRepository.findByEmail(email.toUpperCase()).ifPresent(m ->
@@ -89,5 +102,9 @@ public class UserService {
     private void logMessage(String service, String message, String data) throws IllegalArgumentException {
         log.info("UserService.{}: {} {}", service, message, data);
         throw new IllegalArgumentException(message);
+    }
+
+    private String getMethodName() {
+        return Thread.currentThread().getStackTrace()[2].getMethodName();
     }
 }
