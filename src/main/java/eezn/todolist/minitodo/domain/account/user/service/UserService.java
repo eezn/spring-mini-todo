@@ -5,11 +5,13 @@ import eezn.todolist.minitodo.domain.account.user.repository.UserRepository;
 import eezn.todolist.minitodo.domain.todolist.todo.data.Todo;
 import eezn.todolist.minitodo.domain.todolist.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -17,68 +19,75 @@ public class UserService {
     private final UserRepository userRepository;
     private final TodoRepository todoRepository;
 
-    public User join(User user) throws IllegalStateException {
-        validateDuplicateUser(user);
-        validateDuplicateEmail(user);
+    public User join(User user) throws IllegalArgumentException {
+        validateIsDuplicateUser(user, "join");
+        validateIsDuplicateEmail(user, "join");
         return userRepository.insert(user);
     }
 
-    public void update(User user) throws IllegalStateException {
-        validateUser(user.getId());
+    public boolean update(User user) throws IllegalArgumentException {
+        int userId = user.getId();
+        validateIsExistUser(userId, "update");
         userRepository.update(user);
+        return true;
     }
 
-    public void deactivate(User user) {
-        if (userRepository.findById(user.getId()).isPresent()) {
-            List<Todo> todoList = todoRepository.findByUserId(user.getId());
-            todoList.forEach(todo -> todoRepository.updateDeleteFlag(todo.getId()));
-            userRepository.updateDeleteFlag(user.getId());
-        }
-    }
-
-    public User findUser(Integer UserId) throws IllegalStateException {
-        validateUser(UserId);
-        return userRepository.findById(UserId).get();
-    }
-
-    public int countUser() {
-        return userRepository.countUser();
+    public User findByUserId(Integer userId) throws IllegalArgumentException {
+        validateIsExistUser(userId, "findByUserId");
+        return userRepository.findById(userId).get();
     }
 
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    private void validateUser(Integer UserId) throws IllegalStateException {
-        Optional<User> user = userRepository.findById(UserId);
+    public int countUser() {
+        return userRepository.countUser();
+    }
+
+    public void deactivate(User user) throws IllegalArgumentException {
+        int userId = user.getId();
+        if (validateIsExistUser(userId, "deactivate")) {
+            List<Todo> todoList = todoRepository.findByUserId(userId);
+
+            // todo: 쿼리 개선
+            todoList.forEach(todo -> todoRepository.updateDeleteFlag(todo.getId()));
+            userRepository.updateDeleteFlag(user.getId());
+        }
+    }
+
+    private boolean validateIsExistUser(Integer userId, String service) throws IllegalArgumentException {
+        Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty() || user.get().getIsDeleted()) {
-            throw new IllegalStateException("존재하지 않는 회원입니다.");
+            logMessage(service, "존재하지 않는 회원입니다.", "");
         }
+        return true;
     }
 
-    private void validateDuplicateUser(User user) throws IllegalStateException {
-        String inputName = user.getUsername();
-        if (inputName.length() == 0) {
-            throw new IllegalStateException("사용자 이름이 필요합니다.");
+    private void validateIsDuplicateUser(User user, String service) throws IllegalArgumentException {
+        String username = user.getUsername();
+        if (username.length() == 0) {
+            logMessage(service, "아이디를 입력해주세요.", "");
         }
-        userRepository.findByName(inputName.toLowerCase()).ifPresent(m -> {
-            throw new IllegalStateException("이미 사용중인 아이디입니다.");
-        });
-        userRepository.findByName(inputName.toUpperCase()).ifPresent(m -> {
-            throw new IllegalStateException("이미 사용중인 아이디입니다.");
-        });
+        userRepository.findByName(username.toLowerCase()).ifPresent(m ->
+                logMessage(service, "이미 사용중인 아이디입니다.", username));
+        userRepository.findByName(username.toUpperCase()).ifPresent(m ->
+                logMessage(service, "이미 사용중인 아이디입니다.", username));
     }
 
-    private void validateDuplicateEmail(User user) throws IllegalStateException {
-        String inputEmail = user.getEmail();
-        if (inputEmail.length() == 0) {
-            throw new IllegalStateException("사용자 이메일이 필요합니다.");
+    private void validateIsDuplicateEmail(User user, String service) throws IllegalArgumentException {
+        String email = user.getEmail();
+        if (email.length() == 0) {
+            logMessage(service, "이메일을 입력해주세요.", "");
         }
-        userRepository.findByEmail(inputEmail.toLowerCase()).ifPresent(m -> {
-            throw new IllegalStateException("이미 사용중인 이메일입니다.");
-        });
-        userRepository.findByEmail(inputEmail.toUpperCase()).ifPresent(m -> {
-            throw new IllegalStateException("이미 사용중인 이메일입니다.");
-        });
+        userRepository.findByEmail(email.toLowerCase()).ifPresent(m ->
+                logMessage(service, "이미 사용중인 이메일입니다.", email));
+        userRepository.findByEmail(email.toUpperCase()).ifPresent(m ->
+                logMessage(service, "이미 사용중인 이메일입니다.", email));
+    }
+
+    private void logMessage(String service, String message, String data) throws IllegalArgumentException {
+        log.info("UserService.{}: {} {}", service, message, data);
+        throw new IllegalArgumentException(message);
     }
 }

@@ -23,7 +23,7 @@ public class TodoController {
 
         try {
             model.addAttribute("userId", userId);
-            model.addAttribute("userName", userService.findUser(userId).getUsername());
+            model.addAttribute("userName", userService.findByUserId(userId).getUsername());
             model.addAttribute("todoList", todoService.findByStatusId(userId, StatusEnum.TODO.getId()));
             model.addAttribute("doneList", todoService.findByStatusId(userId, StatusEnum.DONE.getId()));
             model.addAttribute("todoForm", new TodoDto());
@@ -38,7 +38,7 @@ public class TodoController {
     public String create(@PathVariable("id") int userId,
                          @ModelAttribute("todoForm") TodoDto todoForm) {
 
-        try { userService.findUser(userId); }
+        try { userService.findByUserId(userId); }
         catch (IllegalStateException e) {
             System.out.println(e.getMessage());
             return "redirect:/";
@@ -80,7 +80,7 @@ public class TodoController {
 
         try {
             model.addAttribute("userId", userId);
-            model.addAttribute("userName", userService.findUser(userId).getUsername());
+            model.addAttribute("userName", userService.findByUserId(userId).getUsername());
             model.addAttribute("target", todoService.findById(todoId));
             return "modify";
         } catch (IllegalStateException e) {
