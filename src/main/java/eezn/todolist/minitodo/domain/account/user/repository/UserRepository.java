@@ -11,9 +11,9 @@ public interface UserRepository {
 
     void update(User user);
 
-    void updateDeleteFlag(Integer id);
+    void updateDeleteFlag(int id);
 
-    Optional<User> findById(Integer id);
+    Optional<User> findById(int id);
 
     Optional<User> findByName(String name);
 

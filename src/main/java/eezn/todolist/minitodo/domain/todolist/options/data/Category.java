@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class Category {
 
-    private Integer id;
+    private int id;
 
     private String category;
     private Boolean isDeleted;

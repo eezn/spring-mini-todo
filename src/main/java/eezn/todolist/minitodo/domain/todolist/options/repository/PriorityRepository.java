@@ -9,7 +9,7 @@ public interface PriorityRepository {
 
     Priority insert(Priority priority);
 
-    Optional<Priority> findById(Integer id);
+    Optional<Priority> findById(int id);
 
     List<Priority> findAll();
 }

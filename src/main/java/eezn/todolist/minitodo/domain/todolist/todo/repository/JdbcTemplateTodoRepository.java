@@ -64,48 +64,48 @@ public class JdbcTemplateTodoRepository implements TodoRepository {
     }
 
     @Override
-    public void updateStatus(Integer id, StatusEnum status) {
+    public void updateStatus(int id, StatusEnum status) {
         jdbcTemplate.update("update todo_list set modified_time = ?, status_id = ? where todo_id = ?",
                 LocalDateTime.now(), status.getId(), id);
     }
 
     @Override
-    public void updateDeleteFlag(Integer id) {
+    public void updateDeleteFlag(int id) {
         jdbcTemplate.update(
                 "update todo_list set modified_time = ?, todo_is_deleted = true where todo_id = ?",
                 LocalDateTime.now(), id);
     }
 
     @Override
-    public Optional<Todo> findById(Integer id) {
+    public Optional<Todo> findById(int id) {
         List<Todo> result = jdbcTemplate.query(
                 "select * from todo_list where todo_id = ?", todoRowMapper(), id);
         return result.stream().findAny();
     }
 
     @Override
-    public List<Todo> findByUserId(Integer userId) {
+    public List<Todo> findByUserId(int userId) {
         List<Todo> result = jdbcTemplate.query(
                 "select * from todo_list where user_id = ?", todoRowMapper(), userId);
         return result;
     }
 
     @Override
-    public List<Todo> findByCategoryId(Integer categoryId) {
+    public List<Todo> findByCategoryId(int categoryId) {
         List<Todo> result = jdbcTemplate.query(
                 "select * from todo_list where category_id = ?", todoRowMapper(), categoryId);
         return result;
     }
 
     @Override
-    public List<Todo> findByPriorityId(Integer priorityId) {
+    public List<Todo> findByPriorityId(int priorityId) {
         List<Todo> result = jdbcTemplate.query(
                 "select * from todo_list where priority_id = ?", todoRowMapper(), priorityId);
         return result;
     }
 
     @Override
-    public List<Todo> findByStatusId(Integer statusId) {
+    public List<Todo> findByStatusId(int statusId) {
         List<Todo> result = jdbcTemplate.query(
                 "select * from todo_list where status_id = ?", todoRowMapper(), statusId);
         return result;

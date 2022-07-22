@@ -23,15 +23,15 @@ import java.time.LocalDateTime;
 @ToString
 public class Todo {
 
-    private Integer id;
-    private Integer userId;
+    private int id;
+    private int userId;
 
     private LocalDateTime createdTime;
     private LocalDateTime modifiedTime;
     private String content;
     private Boolean isDeleted;
 
-    private Integer categoryId;
-    private Integer priorityId;
-    private Integer statusId;
+    private int categoryId;
+    private int priorityId;
+    private int statusId;
 }

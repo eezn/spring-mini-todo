@@ -42,13 +42,13 @@ public class JdbcTemplateUserRepository implements UserRepository {
     }
 
     @Override
-    public void updateDeleteFlag(Integer id) {
+    public void updateDeleteFlag(int id) {
         jdbcTemplate.update(
                 "update users set user_is_deleted = true where user_id = ?", id);
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public Optional<User> findById(int id) {
         List<User> result = jdbcTemplate.query(
                 "select * from users where user_id = ?", userRowMapper(), id);
         return result.stream().findAny();

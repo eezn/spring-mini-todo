@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class TodoDto {
 
-    private Integer todoId;
+    private int todoId;
     private String content;
-    private Integer categoryId;
-    private Integer priorityId;
-    private Integer statusId;
+    private int categoryId;
+    private int priorityId;
+    private int statusId;
 }

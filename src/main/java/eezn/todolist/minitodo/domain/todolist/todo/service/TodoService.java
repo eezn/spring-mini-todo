@@ -37,7 +37,7 @@ public class TodoService {
         todoRepository.update(todo);
     }
 
-    public void toggleStatus(Integer todoId) throws IllegalStateException {
+    public void toggleStatus(int todoId) throws IllegalStateException {
         validateTodo(todoId);
         if (todoRepository.findById(todoId).get().getStatusId() == StatusEnum.TODO.getId()) {
             todoRepository.updateStatus(todoId, StatusEnum.DONE);
@@ -46,19 +46,19 @@ public class TodoService {
         }
     }
 
-    public void deactivate(Integer todoId) {
+    public void deactivate(int todoId) {
         if (todoRepository.findById(todoId).isPresent()) {
             todoRepository.updateDeleteFlag(todoId);
         }
     }
 
-    public Todo findById(Integer todoId) {
+    public Todo findById(int todoId) {
         validateTodo(todoId);
         return todoRepository.findById(todoId).get();
     }
 
     /** userId */
-    public List<Todo> findByUserId(Integer userId) {
+    public List<Todo> findByUserId(int userId) {
         validateUser(userId);
         return todoRepository.findByUserId(userId)
                 .stream()
@@ -67,13 +67,13 @@ public class TodoService {
     }
 
     /** userId, statusId */
-    public List<Todo> findByStatusId(Integer userId, Integer statusId) {
+    public List<Todo> findByStatusId(int userId, int statusId) {
         validateUser(userId);
         validatePriority(statusId);
         return todoRepository.findByUserId(userId)
                 .stream()
                 .filter(todo -> todo.getIsDeleted().equals(false)
-                        && todo.getStatusId().equals(statusId))
+                        && todo.getStatusId() == statusId)
                 .sorted((o1, o2) -> o1.getCategoryId() == o2.getCategoryId()
                         ? Integer.compare(o1.getPriorityId(), o2.getPriorityId())
                         : Integer.compare(o1.getCategoryId(), o2.getCategoryId()))
@@ -81,23 +81,23 @@ public class TodoService {
     }
 
     /** userId, categoryId */
-    public List<Todo> findByCategoryId(Integer userId, Integer categoryId) {
+    public List<Todo> findByCategoryId(int userId, int categoryId) {
         validateUser(userId);
         validateCategory(categoryId);
         return todoRepository.findByUserId(userId)
                 .stream()
                 .filter(todo -> todo.getIsDeleted().equals(false)
-                        && todo.getCategoryId().equals(categoryId))
+                        && todo.getCategoryId() == categoryId)
                 .collect(Collectors.toList());
     }
 
-    private void validateUser(Integer userId) throws IllegalStateException {
+    private void validateUser(int userId) throws IllegalStateException {
         if (userRepository.findById(userId).isEmpty()) {
             throw new IllegalStateException("존재하지 않는 회원입니다.");
         }
     }
 
-    private void validateTodo(Integer todoId) throws IllegalStateException {
+    private void validateTodo(int todoId) throws IllegalStateException {
         Optional<Todo> todo = todoRepository.findById(todoId);
         if (todo.isEmpty() || todo.get().getIsDeleted()) {
             throw new IllegalStateException("존재하지 않는 항목입니다.");
@@ -110,13 +110,13 @@ public class TodoService {
         }
     }
 
-    private void validateCategory(Integer categoryId) throws IllegalStateException {
+    private void validateCategory(int categoryId) throws IllegalStateException {
         if (categoryRepository.findById(categoryId).isEmpty()) {
             throw new IllegalStateException("존재하지 않는 카테고리 항목입니다.");
         }
     }
 
-    private void validatePriority(Integer priorityId) throws IllegalStateException {
+    private void validatePriority(int priorityId) throws IllegalStateException {
         if (priorityRepository.findById(priorityId).isEmpty()) {
             throw new IllegalStateException("존재하지 않는 우선순위 항목입니다.");
         }

@@ -9,7 +9,7 @@ public interface StatusRepository {
 
     Status insert(Status status);
 
-    Optional<Status> findById(Integer id);
+    Optional<Status> findById(int id);
 
     List<Status> findAll();
 }

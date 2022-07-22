@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class Priority {
 
-    private Integer id;
+    private int id;
 
     private String priority;
     private Boolean isDeleted;

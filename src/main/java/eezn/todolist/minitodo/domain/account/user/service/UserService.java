@@ -32,7 +32,7 @@ public class UserService {
         return true;
     }
 
-    public User findByUserId(Integer userId) throws IllegalArgumentException {
+    public User findByUserId(int userId) throws IllegalArgumentException {
         validateIsExistUser(userId, "findByUserId");
         return userRepository.findById(userId).get();
     }
@@ -56,7 +56,7 @@ public class UserService {
         }
     }
 
-    private boolean validateIsExistUser(Integer userId, String service) throws IllegalArgumentException {
+    private boolean validateIsExistUser(int userId, String service) throws IllegalArgumentException {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty() || user.get().getIsDeleted()) {
             logMessage(service, "존재하지 않는 회원입니다.", "");

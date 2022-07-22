@@ -9,7 +9,7 @@ public interface CategoryRepository {
 
     Category insert(Category category);
 
-    Optional<Category> findById(Integer id);
+    Optional<Category> findById(int id);
 
     List<Category> findAll();
 }

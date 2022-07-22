@@ -12,19 +12,19 @@ public interface TodoRepository {
 
     void update(Todo todo);
 
-    void updateStatus(Integer id, StatusEnum status);
+    void updateStatus(int id, StatusEnum status);
 
-    void updateDeleteFlag(Integer id);
+    void updateDeleteFlag(int id);
 
-    Optional<Todo> findById(Integer id);
+    Optional<Todo> findById(int id);
 
-    List<Todo> findByUserId(Integer userId);
+    List<Todo> findByUserId(int userId);
 
-    List<Todo> findByCategoryId(Integer categoryId);
+    List<Todo> findByCategoryId(int categoryId);
 
-    List<Todo> findByPriorityId(Integer priorityId);
+    List<Todo> findByPriorityId(int priorityId);
 
-    List<Todo> findByStatusId(Integer statusId);
+    List<Todo> findByStatusId(int statusId);
 
     List<Todo> findAll();
 

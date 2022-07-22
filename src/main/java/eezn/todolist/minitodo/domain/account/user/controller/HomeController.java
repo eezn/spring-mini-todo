@@ -31,7 +31,7 @@ public class HomeController {
             user.setPassword(userForm.getPassword());
             user.setEmail(userForm.getEmail());
 
-            Integer id = 0;
+            int id = 0;
             try { id = userService.join(user).getId(); }
             catch (Exception e) {
                 System.out.println(e.getMessage());

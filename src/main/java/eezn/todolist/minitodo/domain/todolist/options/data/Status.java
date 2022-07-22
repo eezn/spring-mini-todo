@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class Status {
 
-    private Integer id;
+    private int id;
 
     private String status;
     private Boolean isDeleted;
