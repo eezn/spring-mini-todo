@@ -1,4 +1,4 @@
-package eezn.todolist.minitodo.domain.user.data;
+package eezn.todolist.minitodo.domain.user.model;
 
 import lombok.Data;
 

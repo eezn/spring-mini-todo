@@ -1,4 +1,4 @@
-package eezn.todolist.minitodo;
+package eezn.todolist.minitodo.config;
 
 import eezn.todolist.minitodo.domain.todo.repository.CategoryRepository;
 import eezn.todolist.minitodo.domain.todo.repository.PriorityRepository;

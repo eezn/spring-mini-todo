@@ -1,11 +1,12 @@
 package eezn.todolist.minitodo.domain.user.service;
 
-import eezn.todolist.minitodo.domain.user.data.User;
+import eezn.todolist.minitodo.domain.user.model.User;
 import eezn.todolist.minitodo.domain.user.repository.UserRepository;
 import eezn.todolist.minitodo.domain.todo.model.Todo;
 import eezn.todolist.minitodo.domain.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +20,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final TodoRepository todoRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     public User join(User user) throws IllegalArgumentException {
         String service = getMethodName();
         validateIsDuplicateUser(user, service);
         validateIsDuplicateEmail(user, service);
+        String encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
         return userRepository.insert(user);
     }
 
@@ -38,6 +43,10 @@ public class UserService {
         String service = getMethodName();
         validateIsExistUser(userId, service);
         return userRepository.findById(userId).get();
+    }
+
+    public User findByUsername(String username) throws IllegalArgumentException {
+        return userRepository.findByName(username).get();
     }
 
     public List<User> findAll() {

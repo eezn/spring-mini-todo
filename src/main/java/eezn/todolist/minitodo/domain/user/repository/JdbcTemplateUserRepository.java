@@ -1,6 +1,6 @@
 package eezn.todolist.minitodo.domain.user.repository;
 
-import eezn.todolist.minitodo.domain.user.data.User;
+import eezn.todolist.minitodo.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

@@ -5,11 +5,10 @@ import eezn.todolist.minitodo.domain.todo.model.Category;
 import eezn.todolist.minitodo.domain.todo.model.Priority;
 import eezn.todolist.minitodo.domain.todo.repository.CategoryRepository;
 import eezn.todolist.minitodo.domain.todo.repository.PriorityRepository;
-import eezn.todolist.minitodo.domain.user.data.User;
+import eezn.todolist.minitodo.domain.user.model.User;
 import eezn.todolist.minitodo.domain.todo.model.Todo;
 import eezn.todolist.minitodo.domain.todo.repository.TodoRepository;
 import eezn.todolist.minitodo.domain.user.repository.UserRepository;
-import eezn.todolist.minitodo.domain.todo.service.comparator.PriorityComparator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -100,7 +99,10 @@ public class TodoService {
                 .stream()
                 .filter(todo -> todo.getIsDeleted().equals(false)
                         && todo.getStatusId() == statusId)
-                .sorted(new PriorityComparator())
+//                .sorted(new PriorityComparator())
+                .sorted(Comparator
+                        .comparing(Todo::getCategoryId)
+                        .thenComparing(Todo::getPriorityId))
                 .collect(Collectors.toList());
     }
 

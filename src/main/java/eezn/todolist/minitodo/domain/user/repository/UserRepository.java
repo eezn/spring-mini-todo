@@ -1,6 +1,6 @@
 package eezn.todolist.minitodo.domain.user.repository;
 
-import eezn.todolist.minitodo.domain.user.data.User;
+import eezn.todolist.minitodo.domain.user.model.User;
 
 import java.util.List;
 import java.util.Optional;
